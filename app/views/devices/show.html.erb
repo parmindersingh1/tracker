@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Mobile no:</strong>
+  <%= @device.mobile_no %>
+</p>
+
+<p>
+  <strong>Imei no:</strong>
+  <%= @device.imei_no %>
+</p>
+
+<p>
+  <strong>Vehicle:</strong>
+  <%= @device.vehicle %>
+</p>
+
+<p>
+  <strong>Is enabled:</strong>
+  <%= @device.is_enabled %>
+</p>
+
+<%= link_to 'Edit', edit_device_path(@device) %> |
+<%= link_to 'Back', devices_path %>

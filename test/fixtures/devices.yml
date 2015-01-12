@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mobile_no: MyString
+  imei_no: MyString
+  vehicle_id: 
+  is_enabled: false
+
+two:
+  mobile_no: MyString
+  imei_no: MyString
+  vehicle_id: 
+  is_enabled: false

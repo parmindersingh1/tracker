@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  latitude: 9.99
+  longitude: 9.99
+  timeperiod: MyString
+  sequence: 1
+  route_id: 
+
+two:
+  name: MyString
+  latitude: 9.99
+  longitude: 9.99
+  timeperiod: MyString
+  sequence: 1
+  route_id: 

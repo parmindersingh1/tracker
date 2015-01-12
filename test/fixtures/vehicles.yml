@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  registration_no: MyString
+  capacity: 1
+  type: 
+
+two:
+  registration_no: MyString
+  capacity: 1
+  type: 
