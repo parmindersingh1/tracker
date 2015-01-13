@@ -13,29 +13,29 @@
 
   <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
+    <%= f.text_field :name,:class=>"form-control" %>
   </div>
   <div class="field">
     <%= f.label :latitude %><br>
-    <%= f.text_field :latitude %>
+    <%= f.text_field :latitude,:class=>"form-control" %>
   </div>
   <div class="field">
     <%= f.label :longitude %><br>
-    <%= f.text_field :longitude %>
+    <%= f.text_field :longitude,:class=>"form-control" %>
   </div>
   <div class="field">
     <%= f.label :timeperiod %><br>
-    <%= f.text_field :timeperiod %>
+    <%= f.text_field :timeperiod,:class=>"form-control" %>
   </div>
   <div class="field">
     <%= f.label :sequence %><br>
-    <%= f.number_field :sequence %>
+    <%= f.number_field :sequence,:class=>"form-control" %>
   </div>
   <div class="field">
     <%= f.label :route_id %><br>
-    <%= f.text_field :route_id %>
+    <%= f.select(:route_id ,Route.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control"})%>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "submit", :class=> "btn btn-primary btn-lg btn-block"%>
   </div>
 <% end %>

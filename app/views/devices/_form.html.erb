@@ -13,21 +13,21 @@
 
   <div class="field">
     <%= f.label :mobile_no %><br>
-    <%= f.text_field :mobile_no %>
+    <%= f.text_field :mobile_no,:class=>"form-control" %>
   </div>
   <div class="field">
     <%= f.label :imei_no %><br>
-    <%= f.text_field :imei_no %>
+    <%= f.text_field :imei_no,:class=>"form-control" %>
   </div>
   <div class="field">
     <%= f.label :vehicle_id %><br>
-    <%= f.text_field :vehicle_id %>
+     <%= f.select(:vehicle_id ,Vehicle.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control"})%>
   </div>
   <div class="field">
     <%= f.label :is_enabled %><br>
     <%= f.check_box :is_enabled %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "submit", :class=> "btn btn-primary btn-lg btn-block"%>
   </div>
 <% end %>
