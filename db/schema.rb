@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20150112085139) do
   create_table "vehicles", force: true do |t|
     t.string   "registration_no"
     t.integer  "capacity"
-    t.string   "type"
+    t.string   "vehicle_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

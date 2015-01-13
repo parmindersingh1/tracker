@@ -1,11 +1,11 @@
-<h1>Listing vehicles</h1>
+<h1>Listing Vehicles</h1>
 
-<table>
+<table class="table">
   <thead>
     <tr>
       <th>Registration no</th>
       <th>Capacity</th>
-      <th>Type</th>
+      <th>Vehicle Type</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -15,7 +15,7 @@
       <tr>
         <td><%= vehicle.registration_no %></td>
         <td><%= vehicle.capacity %></td>
-        <td><%= vehicle.type %></td>
+        <td><%= vehicle.vehicle_type %></td>
         <td><%= link_to 'Show', vehicle %></td>
         <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
         <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -1,29 +1,35 @@
 <%= form_for(@vehicle) do |f| %>
-  <% if @vehicle.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
+<% if @vehicle.errors.any? %>
+<div id="error_explanation">
+	<h2><%= pluralize(@vehicle.errors.count, "error") %> prohibited this vehicle from being saved:</h2>
 
-      <ul>
-      <% @vehicle.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+	<ul>
+		<% @vehicle.errors.full_messages.each do |message| %>
+		<li>
+			<%= message %>
+		</li>
+		<% end %>
+	</ul>
+</div>
+<% end %>
 
-  <div class="field">
-    <%= f.label :registration_no %><br>
-    <%= f.text_field :registration_no %>
-  </div>
-  <div class="field">
-    <%= f.label :capacity %><br>
-    <%= f.number_field :capacity %>
-  </div>
-  <div class="field">
-    <%= f.label :type %><br>
-    <%= f.text_field :type %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<div class="field">
+	<%= f.label :registration_no %>
+	<br>
+	<%= f.text_field :registration_no ,:class=> "form-control"%>
+</div>
+<div class="field">
+	<%= f.label :capacity %>
+	<br>
+	<%= f.number_field :capacity ,:class=> "form-control"%>
+</div>
+<div class="field">
+	<%= f.label :vehicle_type %>
+	<br>
+	<%= f.text_field :vehicle_type ,:class=> "form-control"%>
+</div>
+<div class="actions">
+	<%= f.submit "Submit",:class=> "btn btn-primary btn-lg"%>
+</div>
+
 <% end %>

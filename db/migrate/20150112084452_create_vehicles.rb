@@ -3,7 +3,7 @@ class CreateVehicles < ActiveRecord::Migration
     create_table :vehicles do |t|
       t.string :registration_no
       t.integer :capacity
-      t.string :type
+      t.string :vehicle_type
 
       t.timestamps
     end
