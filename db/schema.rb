@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 20150112085139) do
 
   create_table "stops", force: true do |t|
     t.string   "name"
-    t.decimal  "latitude",   precision: 10, scale: 0
-    t.decimal  "longitude",  precision: 10, scale: 0
+    t.decimal  "latitude",   precision: 10, scale: 7
+    t.decimal  "longitude",  precision: 10, scale: 7
     t.string   "timeperiod"
     t.integer  "sequence"
     t.integer  "route_id"
