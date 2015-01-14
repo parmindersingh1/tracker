@@ -1,4 +1,5 @@
 class Vehicle < ActiveRecord::Base
+  resourcify
   belongs_to :school
   has_one :device
   has_many :routes
