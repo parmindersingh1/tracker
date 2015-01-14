@@ -6,6 +6,7 @@
       <th>Registration no</th>
       <th>Capacity</th>
       <th>Vehicle Type</th>
+      <th>School</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
         <td><%= vehicle.registration_no %></td>
         <td><%= vehicle.capacity %></td>
         <td><%= vehicle.vehicle_type %></td>
+        <td><%= vehicle.school.name %></td>
         <td><%= link_to 'Show', vehicle %></td>
         <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
         <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></td>

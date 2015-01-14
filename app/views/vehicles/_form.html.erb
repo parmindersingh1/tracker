@@ -28,6 +28,10 @@
 	<br>
 	<%= f.text_field :vehicle_type ,:class=> "form-control", :required => true%>
 </div>
+<div class="field">
+    <%= f.label :school_id %><br>
+    <%= f.select(:school_id ,School.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control"})%>
+  </div>
 <div class="actions">
 	<%= f.submit "Submit",:class=> "btn btn-primary btn-lg btn-block"%>
 </div>
