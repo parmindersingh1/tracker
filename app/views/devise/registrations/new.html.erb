@@ -13,6 +13,11 @@
 
   <div><%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
+    
+  <div>
+    <%= f.label :school_id %><br>
+    <%= f.select(:school_id ,School.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control"})%>
+  </div>
 
   <div><%= f.submit "Sign up" %></div>
 <% end %>

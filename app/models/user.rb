@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,  :authentication_keys => [:login]
   validates :username,  :uniqueness => { :case_sensitive => false } 
-  
+  validates :school_id, :presence => true
   # before_create :create_login
 
   # def create_login
