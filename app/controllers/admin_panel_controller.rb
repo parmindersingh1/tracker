@@ -1,4 +1,6 @@
 class AdminPanelController < ApplicationController
+  authorize_resource :class => false
+  skip_authorization_check :only => [:users]
   def users
     @users =User.all
   end

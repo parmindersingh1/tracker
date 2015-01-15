@@ -1,6 +1,6 @@
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
-
+  skip_authorization_check :only => [:index, :show]
   # GET /vehicles
   # GET /vehicles.json
   def index
