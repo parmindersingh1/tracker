@@ -9,7 +9,9 @@
       <th>Timeperiod</th>
       <th>Sequence</th>
       <th>Route</th>
+      <% if current_user.role == "superuser" || current_user.role == "admin"%>
       <th colspan="3"></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -22,14 +24,19 @@
         <td><%= stop.timeperiod %></td>
         <td><%= stop.sequence %></td>
         <td><%= stop.route %></td>
+         <% if current_user.role == "superuser" || current_user.role == "admin"%>
         <td><%= link_to 'Show', stop %></td>
         <td><%= link_to 'Edit', edit_stop_path(stop) %></td>
+        <% end %>
+         <% if current_user.role == "superuser"%>
         <td><%= link_to 'Destroy', stop, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
+ <% if current_user.role == "superuser" || current_user.role == "admin"%>
 <%= link_to 'New Stop', new_stop_path %>
+<% end %>

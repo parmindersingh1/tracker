@@ -1,6 +1,6 @@
 class DevicesController < ApplicationController
   before_action :set_device, only: [:show, :edit, :update, :destroy]
-  skip_authorization_check :only => [:index, :show]
+  load_and_authorize_resource :except => [:index, :show]
   # GET /devices
   # GET /devices.json
   def index

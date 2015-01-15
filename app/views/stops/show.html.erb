@@ -29,6 +29,7 @@
   <strong>Route:</strong>
   <%= @stop.route %>
 </p>
-
+ <% if current_user.role == "superuser" || current_user.role == "admin"%>
 <%= link_to 'Edit', edit_stop_path(@stop) %> |
+<%end%>
 <%= link_to 'Back', stops_path %>

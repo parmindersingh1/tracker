@@ -1,8 +1,11 @@
 class AdminPanelController < ApplicationController
   authorize_resource :class => false
-  skip_authorization_check :only => [:users]
-  def users
+  def users    
+    if current_user.role == "superuser"
     @users =User.all
+    elsif current_user.role == "admin"
+    @users=User.where(:school_id => current_user.school.id) 
+    end
   end
 
   def edit_role    

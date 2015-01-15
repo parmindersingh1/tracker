@@ -7,7 +7,9 @@
       <th>Capacity</th>
       <th>Vehicle Type</th>
       <th>School</th>
-      <th colspan="3"></th>
+       <% if current_user.role == "superuser" || current_user.role == "admin"%>
+        <th colspan="3"></th>
+      <%end%>
     </tr>
   </thead>
 
@@ -18,14 +20,19 @@
         <td><%= vehicle.capacity %></td>
         <td><%= vehicle.vehicle_type %></td>
         <td><%= vehicle.school.name %></td>
+         <% if current_user.role == "superuser" || current_user.role == "admin"%>
         <td><%= link_to 'Show', vehicle %></td>
         <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
+        <%end%>
+         <% if current_user.role == "superuser"%>
         <td><%= link_to 'Destroy', vehicle, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%end%>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
+<% if current_user.role == "superuser" || current_user.role == "admin"%>
 <%= link_to 'New Vehicle', new_vehicle_path %>
+<%end%>

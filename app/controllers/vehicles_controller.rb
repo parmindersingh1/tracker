@@ -1,6 +1,6 @@
 class VehiclesController < ApplicationController
   before_action :set_vehicle, only: [:show, :edit, :update, :destroy]
-  skip_authorization_check :only => [:index, :show]
+  load_and_authorize_resource :except => [:index, :show]
   # GET /vehicles
   # GET /vehicles.json
   def index
@@ -69,6 +69,6 @@ class VehiclesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def vehicle_params
-      params.require(:vehicle).permit(:registration_no, :capacity, :vehicle_type)
+      params.require(:vehicle).permit(:registration_no, :capacity, :vehicle_type, :school_id)
     end
 end

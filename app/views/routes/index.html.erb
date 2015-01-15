@@ -7,7 +7,9 @@
       <th>Start time</th>
       <th>End time</th>
       <th>Vehicle</th>
+       <% if current_user.role == "superuser" || current_user.role == "admin"%>
       <th colspan="3"></th>
+      <%end%>
     </tr>
   </thead>
 
@@ -18,14 +20,19 @@
         <td><%= route.start_time %></td>
         <td><%= route.end_time %></td>
         <td><%= route.vehicle %></td>
+         <% if current_user.role == "superuser" || current_user.role == "admin"%>
         <td><%= link_to 'Show', route %></td>
         <td><%= link_to 'Edit', edit_route_path(route) %></td>
+        <%end%>
+         <% if current_user.role == "superuser"%>
         <td><%= link_to 'Destroy', route, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%end%>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
+ <% if current_user.role == "superuser" || current_user.role == "admin"%>
 <%= link_to 'New Route', new_route_path %>
+<%end%>

@@ -19,6 +19,7 @@
   <strong>Vehicle:</strong>
   <%= @route.vehicle %>
 </p>
-
+<% if current_user.role == "superuser" || current_user.role == "admin"%>
 <%= link_to 'Edit', edit_route_path(@route) %> |
+<%end%>
 <%= link_to 'Back', routes_path %>

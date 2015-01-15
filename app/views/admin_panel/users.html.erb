@@ -18,7 +18,9 @@
         <td><%= user.email %></td>        
         <td><%= user.school.name %></td>
         <td><%= user.role%></td>
+        <% if current_user.role == "superuser"%>
         <td><%=link_to "Edit Role",admin_panel_edit_role_path(:user=> user) %></td>
+       <%end%>
       </tr>
     <% end %>
   </tbody>

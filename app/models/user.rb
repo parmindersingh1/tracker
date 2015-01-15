@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,  :authentication_keys => [:login]
   validates :username,  :uniqueness => { :case_sensitive => false }
   validates :school_id, :presence => true
+  
+  
   ROLES = %w[superuser admin user]
   # before_create :create_login
 

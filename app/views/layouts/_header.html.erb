@@ -20,9 +20,9 @@
         <li><%=link_to "Devices", devices_path%></li>
         <li><%=link_to "Stops", stops_path%></li>
         <li><%=link_to "Schools", schools_path%></li>
+         <% if current_user.role == "superuser" || current_user.role == "admin"%>
         <li><%=link_to "Users", admin_panel_users_path%></li>
-
-
+        <%end%>
       </ul>
    <%end%>
       
