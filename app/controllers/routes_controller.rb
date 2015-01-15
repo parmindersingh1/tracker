@@ -24,11 +24,11 @@ class RoutesController < ApplicationController
   # POST /routes
   # POST /routes.json
   def create
-    @route = Route.new(route_params)
+      @route = Route.new(route_params)
 
     respond_to do |format|
       if @route.save
-        format.html { redirect_to @route, notice: 'Route was successfully created.' }
+        format.html { redirect_to routes_path, notice: 'Route was successfully created.' }
         format.json { render :show, status: :created, location: @route }
       else
         format.html { render :new }
@@ -68,7 +68,7 @@ class RoutesController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def route_params
+    def route_params        
       params.require(:route).permit(:name, :start_time, :end_time, :vehicle_id)
     end
 end

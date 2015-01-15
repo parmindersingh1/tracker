@@ -21,7 +21,6 @@
         <td><%= device.vehicle %></td>
         <td><%= device.is_enabled %></td>
         <% if current_user.role == "superuser" || current_user.role == "admin"%>
-        <td><%= link_to 'Show', device %></td>
         <td><%= link_to 'Edit', edit_device_path(device) %></td>
         <%end%>
         <% if current_user.role == "superuser"%>

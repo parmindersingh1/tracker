@@ -19,9 +19,8 @@
         <td><%= route.name %></td>
         <td><%= route.start_time %></td>
         <td><%= route.end_time %></td>
-        <td><%= route.vehicle %></td>
+        <td><%= route.vehicle.registration_no %></td>
          <% if current_user.role == "superuser" || current_user.role == "admin"%>
-        <td><%= link_to 'Show', route %></td>
         <td><%= link_to 'Edit', edit_route_path(route) %></td>
         <%end%>
          <% if current_user.role == "superuser"%>

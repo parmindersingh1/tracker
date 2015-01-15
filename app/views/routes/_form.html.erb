@@ -15,14 +15,26 @@
     <%= f.label :name %><br>
     <%= f.text_field :name,:class=>"form-control", :required => true,:placeholder => "Name" %>
   </div>
-  <div class="field">
+  
+     <!-- <div class="field"> -->
     <%= f.label :start_time %><br>
-    <%= f.text_field :start_time ,:class=>"form-control datetimepicker", :required => true,:placeholder => "Start Time" %>
+    <div class="form-group">
+  	 <div class='input-group date datetimepicker' >
+  <%=f.text_field :start_time,:class=>"form-control",:value =>  DateTime.now.strftime("%d/%m/%Y %I:%M %p ")  %>
+  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+   </div>
   </div>
-  <div class="field">
-    <%= f.label :end_time %><br>
-    <%= f.text_field :end_time ,:class=>"form-control datetimepicker", :required => true,:placeholder => "End Time" %>
+ 
+ <%= f.label :end_time %><br>
+ <div class="form-group">
+  	 <div class='input-group date datetimepicker' >
+      <%=f.text_field :end_time,:class=>"form-control",:value =>  DateTime.now.strftime("%d/%m/%Y %I:%M %p ")  %>
+  <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+   </div>
   </div>
+  <!-- <div class="field"> -->
+    
+ 
   <div class="field">
     <%= f.label :vehicle_id %><br>
     <%= f.select(:vehicle_id ,Vehicle.all.map {|c| [c.registration_no, c.id]} ,{:prompt => "Select"}, {:class=>"form-control", :required => true})%>
@@ -31,3 +43,21 @@
     <%= f.submit "Submit", :class=> "btn btn-primary btn-lg btn-block"%>
   </div>
 <% end %>
+
+
+
+<script>
+$(function() {
+	$('.datetimepicker').datetimepicker({
+		 format: "dd MM yyyy HH:ii P",
+        autoclose: true,
+        todayBtn: true,
+        showMeridian: true,
+        minuteStep: 30,
+        pickerPosition:  'top-right',
+          
+	});	
+	
+	
+}); 
+</script>

@@ -21,7 +21,6 @@
         <td><%= vehicle.vehicle_type %></td>
         <td><%= vehicle.school.name %></td>
          <% if current_user.role == "superuser" || current_user.role == "admin"%>
-        <td><%= link_to 'Show', vehicle %></td>
         <td><%= link_to 'Edit', edit_vehicle_path(vehicle) %></td>
         <%end%>
          <% if current_user.role == "superuser"%>
