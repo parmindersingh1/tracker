@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get 'admin_panel/users'
+
+  get 'admin_panel/edit_role'
+  post 'admin_panel/update_role'
+
   devise_for :users
   resources :schools
 

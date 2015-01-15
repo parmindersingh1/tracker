@@ -29,7 +29,7 @@ gem 'bootstrap-sass', '~> 3.3.1'
 gem 'spring',        group: :development
 gem 'devise'
 gem 'cancan'
-gem 'rolify'
+# gem 'rolify'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

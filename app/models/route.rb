@@ -1,5 +1,4 @@
 class Route < ActiveRecord::Base
-  resourcify
   belongs_to :vehicle
   has_many :stops
   validates :name, :start_time, :presence => true

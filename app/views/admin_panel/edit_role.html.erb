@@ -1,0 +1,8 @@
+<h2>Edit Role</h2>
+
+<%= form_tag({:action => 'update_role'}, {:id => 'changeRole'}) do %>
+<div class="alert alert-danger" role="alert" style="display:none;"></div>
+ <%=select_tag 'role', options_for_select(User::ROLES),{:class => "form-control",:prompt=>"select"}%>
+ <%=hidden_field_tag 'user_id', @user.id%>
+  <%= submit_tag("Upload Role", class: "btn btn-primary") %>
+<%end%>

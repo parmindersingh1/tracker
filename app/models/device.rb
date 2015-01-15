@@ -1,5 +1,4 @@
 class Device < ActiveRecord::Base
-  resourcify
   belongs_to :vehicle
   validates :imei_no, :uniqueness => true
   before_create :set_enabled

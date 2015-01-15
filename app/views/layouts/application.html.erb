@@ -9,6 +9,18 @@
 <body>
 	<%= render "layouts/header"%>
 <div class="container">
+	       <% if notice %>
+			<div class="alert  alert alert-warning">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+				<%= raw(notice.titleize) %>
+			</div>
+			<% end %>
+			<% if alert %>
+			<div class="alert  alert-danger">
+				<a href="#" class="close" data-dismiss="alert">&times;</a>
+				<%= raw(alert.titleize) %>
+			</div>
+			<% end %>
 <%= yield %>
 </div>
 
