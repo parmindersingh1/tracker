@@ -16,22 +16,23 @@
 <div class="field">
 	<%= f.label :registration_no %>
 	<br>
-	<%= f.text_field :registration_no ,:class=> "form-control", :required => true%>
+	<%= f.text_field :registration_no ,:class=> "form-control", :required => true,:placeholder => "Registration No"%>
 </div>
 <div class="field">
 	<%= f.label :capacity %>
 	<br>
-	<%= f.number_field :capacity ,:class=> "form-control"%>
+	<%= f.number_field :capacity ,:class=> "form-control",:placeholder => "Capacity"%>
 </div>
 <div class="field">
 	<%= f.label :vehicle_type %>
 	<br>
-	<%= f.text_field :vehicle_type ,:class=> "form-control", :required => true%>
+	<%= f.text_field :vehicle_type ,:class=> "form-control", :required => true,:placeholder => "Vehicle Type"%>
 </div>
 <div class="field">
-    <%= f.label :school_id %><br>
-    <%= f.select(:school_id ,School.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control"})%>
-  </div>
+	<%= f.label :school_id %>
+	<br>
+	<%= f.select(:school_id ,School.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control", :required => true})%>
+</div>
 <div class="actions">
 	<%= f.submit "Submit",:class=> "btn btn-primary btn-lg btn-block"%>
 </div>

@@ -13,21 +13,21 @@
 
   <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name,:class=>"form-control" %>
+    <%= f.text_field :name,:class=>"form-control", :required => true,:placeholder => "Name" %>
   </div>
   <div class="field">
     <%= f.label :start_time %><br>
-    <%= f.text_field :start_time ,:class=>"form-control datetimepicker" %>
+    <%= f.text_field :start_time ,:class=>"form-control datetimepicker", :required => true,:placeholder => "Start Time" %>
   </div>
   <div class="field">
     <%= f.label :end_time %><br>
-    <%= f.text_field :end_time ,:class=>"form-control datetimepicker" %>
+    <%= f.text_field :end_time ,:class=>"form-control datetimepicker", :required => true,:placeholder => "End Time" %>
   </div>
   <div class="field">
     <%= f.label :vehicle_id %><br>
-    <%= f.select(:vehicle_id ,Vehicle.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control"})%>
+    <%= f.select(:vehicle_id ,Vehicle.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control", :required => true})%>
   </div>
   <div class="actions">
-    <%= f.submit "submit", :class=> "btn btn-primary btn-lg btn-block"%>
+    <%= f.submit "Submit", :class=> "btn btn-primary btn-lg btn-block"%>
   </div>
 <% end %>

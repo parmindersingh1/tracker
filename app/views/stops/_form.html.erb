@@ -13,23 +13,23 @@
 
   <div class="field">
     <%= f.label :name %><br>
-    <%= f.text_field :name,:class=>"form-control" %>
+    <%= f.text_field :name,:class=>"form-control",:placeholder =>"Name", :required=> true %>
   </div>
   <div class="field">
     <%= f.label :latitude %><br>
-    <%= f.text_field :latitude,:class=>"form-control" %>
+    <%= f.text_field :latitude,:class=>"form-control",:placeholder =>"Latitude", :required=> true %>
   </div>
   <div class="field">
     <%= f.label :longitude %><br>
-    <%= f.text_field :longitude,:class=>"form-control" %>
+    <%= f.text_field :longitude,:class=>"form-control",:placeholder =>"Longitude", :required=> true %>
   </div>
   <div class="field">
     <%= f.label :timeperiod %><br>
-    <%= f.text_field :timeperiod,:class=>"form-control" %>
+    <%= f.text_field :timeperiod,:class=>"form-control",:placeholder =>"TimePeriod", :required=> true %>
   </div>
   <div class="field">
     <%= f.label :sequence %><br>
-    <%= f.number_field :sequence,:class=>"form-control" %>
+    <%= f.number_field :sequence,:class=>"form-control",:placeholder =>"Sequence", :required=> true %>
   </div>
   <div class="field">
     <%= f.label :route_id %><br>
