@@ -1,8 +1,17 @@
 Rails.application.routes.draw do
+  # resources :tracks
+
   get 'admin_panel/users'
 
   get 'admin_panel/edit_role'
   post 'admin_panel/update_role'
+  
+  get 'tracks/display_map'
+  get 'tracks/getallroutesformap'
+  get 'tracks/getrouteformap'
+  get 'tracks/getroutes'
+  get 'tracks/updatelocation'
+  get 'tracks/deleteroute'
 
   devise_for :users
   resources :schools
@@ -16,6 +25,7 @@ Rails.application.routes.draw do
   resources :vehicles
 
   root 'vehicles#index'
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

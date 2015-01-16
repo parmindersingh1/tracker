@@ -14,6 +14,9 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap-sprockets
+//= require leaflet
+//= require leaflet-plugins/google
+//= require leaflet-plugins/bing
 //= require moment
 //= require bootstrap-datetimepicker.min
 //= require_tree .

@@ -18,7 +18,7 @@
       <tr>
         <td><%= device.mobile_no %></td>
         <td><%= device.imei_no %></td>
-        <td><%= device.vehicle %></td>
+        <td><%= device.vehicle.registration_no %></td>
         <td><%= device.is_enabled %></td>
         <% if current_user.role == "superuser" || current_user.role == "admin"%>
         <td><%= link_to 'Edit', edit_device_path(device) %></td>

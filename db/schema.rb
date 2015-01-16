@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150115034320) do
+ActiveRecord::Schema.define(version: 20150116033253) do
 
   create_table "devices", force: true do |t|
     t.string   "mobile_no"
@@ -55,6 +55,27 @@ ActiveRecord::Schema.define(version: 20150115034320) do
   end
 
   add_index "stops", ["route_id"], name: "index_stops_on_route_id", using: :btree
+
+  create_table "tracks", force: true do |t|
+    t.decimal  "latitude",       precision: 10, scale: 7
+    t.decimal  "longitude",      precision: 10, scale: 7
+    t.string   "sessionID"
+    t.integer  "speed"
+    t.integer  "direction"
+    t.decimal  "distance",       precision: 10, scale: 1
+    t.datetime "gpsTime"
+    t.string   "locationMethod"
+    t.integer  "accuracy"
+    t.string   "extraInfo"
+    t.string   "eventType"
+    t.integer  "vehicle_id"
+    t.integer  "route_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tracks", ["route_id"], name: "index_tracks_on_route_id", using: :btree
+  add_index "tracks", ["vehicle_id"], name: "index_tracks_on_vehicle_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
