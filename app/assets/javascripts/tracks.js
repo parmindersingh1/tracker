@@ -89,7 +89,8 @@ jQuery(document).ready(function($) {
         });
     }    
     
-    function loadRoutes(json) {        
+    function loadRoutes(json) {     
+    	// alert(JSON.stringify(json));   
         if (json.length == 0) {
             showPermanentMessage('There are no routes available to view');
         }
@@ -149,7 +150,7 @@ jQuery(document).ready(function($) {
     }
 
     function loadGPSLocations(json) {
-        // console.log(JSON.stringify(json));
+        // alert(JSON.stringify(json));
         if (json.length == 0) {
             showPermanentMessage('There is no tracking data to view');
             map.innerHTML = '';
@@ -157,36 +158,47 @@ jQuery(document).ready(function($) {
         else {        	
             if (map.id == 'map-canvas') {
                 // clear any old map objects
-                document.getElementById('map-canvas').outerHTML = "<div id='map-canvas'></div>";
+                // document.getElementById('map-canvas').outerHTML = "<div id='map-canvas'></div>";
            
                 // use leaflet (http://leafletjs.com/) to create our map and map layers
-                var gpsTrackerMap = new L.map('map-canvas',{
-                	center: [30.7500, 76.7800],
-                	zoom: 13
-                });
-            
-                var openStreetMapsURL = ('https:' == document.location.protocol ? 'https://' : 'http://') +
-                 '{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-                var openStreetMapsLayer = new L.TileLayer(openStreetMapsURL,
-                {attribution:'&copy;2014 <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'});
-
-                // need to get your own bing maps key, http://www.microsoft.com/maps/create-a-bing-maps-key.aspx
-                var bingMapsLayer = new L.BingLayer("AnH1IKGCBwAiBWfYAHMtIfIhMVybHFx2GxsReNP5W0z6P8kRa67_QwhM4PglI9yL");
-                var googleMapsLayer = new L.Google('ROADMAP');
-            
-                // this fixes the zoom buttons from freezing
-                // https://github.com/shramov/leaflet-plugins/issues/62
-                L.polyline([[0, 0], ]).addTo(gpsTrackerMap);
-
-                // this sets which map layer will first be displayed
-                gpsTrackerMap.addLayer(googleMapsLayer);
-
-                // this is the switcher control to switch between map types
-                gpsTrackerMap.addControl(new L.Control.Layers({
-                    'Bing Maps':bingMapsLayer,
-                    'Google Maps':googleMapsLayer,
-                    'OpenStreetMaps':openStreetMapsLayer
-                }, {}));
+                
+               
+			        var mapOptions = {
+			          center: new google.maps.LatLng(30.7500, 76.7800),
+			          zoom: 8
+			        };
+			        var gpsTrackerMap = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+			    
+			                
+                
+//                 
+                // var gpsTrackerMap = new L.map('map-canvas',{
+                	// center: [30.7500, 76.7800],
+                	// zoom: 13
+                // });
+//             
+                // var openStreetMapsURL = ('https:' == document.location.protocol ? 'https://' : 'http://') +
+                 // '{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+                // var openStreetMapsLayer = new L.TileLayer(openStreetMapsURL,
+                // {attribution:'&copy;2014 <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'});
+// 
+                // // need to get your own bing maps key, http://www.microsoft.com/maps/create-a-bing-maps-key.aspx
+                // var bingMapsLayer = new L.BingLayer("AnH1IKGCBwAiBWfYAHMtIfIhMVybHFx2GxsReNP5W0z6P8kRa67_QwhM4PglI9yL");
+                // var googleMapsLayer = new L.Google('ROADMAP');
+//             
+                // // this fixes the zoom buttons from freezing
+                // // https://github.com/shramov/leaflet-plugins/issues/62
+                // L.polyline([[0, 0], ]).addTo(gpsTrackerMap);
+// 
+                // // this sets which map layer will first be displayed
+                // gpsTrackerMap.addLayer(googleMapsLayer);
+// 
+                // // this is the switcher control to switch between map types
+                // gpsTrackerMap.addControl(new L.Control.Layers({
+                    // 'Bing Maps':bingMapsLayer,
+                    // 'Google Maps':googleMapsLayer,
+                    // 'OpenStreetMaps':openStreetMapsLayer
+                // }, {}));
             }
 
                 var finalLocation = false;
@@ -197,8 +209,8 @@ jQuery(document).ready(function($) {
                 $(json.locations).each(function(key, value){
                     var latitude =  $(this).attr('latitude');
                     var longitude = $(this).attr('longitude');
-                    var tempLocation = new L.LatLng(latitude, longitude);
-                    
+                    var tempLocation = new google.maps.LatLng(latitude, longitude);
+                    // alert("oooooooooooo"+tempLocation);
                     locationArray.push(tempLocation);                    
                     counter++;
 
@@ -227,6 +239,20 @@ jQuery(document).ready(function($) {
                         gpsTrackerMap, finalLocation);
                 });
                 
+                
+                // var infowindow = new google.maps.InfoWindow({
+				      // content: contentString
+				  // });
+// 				
+				  // var marker = new google.maps.Marker({
+				      // position: myLatlng,
+				      // map: map,
+				      // title: 'Uluru (Ayers Rock)'
+				  // });
+				  // google.maps.event.addListener(marker, 'click', function() {
+				    // infowindow.open(map,marker);
+				  // });
+				  
                 // fit markers within window
                 var bounds = new L.LatLngBounds(locationArray);
                 gpsTrackerMap.fitBounds(bounds);
@@ -280,17 +306,19 @@ jQuery(document).ready(function($) {
 
         var gpstrackerMarker;
         var title = userName + " - " + gpsTime;
-
+        var myLatlng = new google.maps.LatLng(latitude,longitude);
         // make sure the final red marker always displays on top 
         if (finalLocation) {
-            gpstrackerMarker = new L.marker(new L.LatLng(latitude, longitude), {title: title, icon: markerIcon, zIndexOffset: 999}).bindPopup(popupWindowText).addTo(map);
+            // gpstrackerMarker = new L.marker(new L.LatLng(latitude, longitude), {title: title, icon: markerIcon, zIndexOffset: 999}).bindPopup(popupWindowText).addTo(map);
+            gpstrackerMarker = new google.maps.Marker({position: myLatlng, map: map, title: title });
         } else {
-            gpstrackerMarker = new L.marker(new L.LatLng(latitude, longitude), {title: title, icon: markerIcon}).bindPopup(popupWindowText).addTo(map);
+            // gpstrackerMarker = new L.marker(new L.LatLng(latitude, longitude), {title: title, icon: markerIcon}).bindPopup(popupWindowText).addTo(map);
+            gpstrackerMarker = new google.maps.Marker({position: myLatlng, map: map, title: title });
         }
         
         // if we are viewing all routes, we want to go to a route when a user taps on a marker instead of displaying popupWindow
         if (viewingAllRoutes) {
-            gpstrackerMarker.unbindPopup();
+            // gpstrackerMarker.unbindPopup();
             
             gpstrackerMarker.on("click", function() {        
                 var url = '/tracks/getrouteformap?sessionid=' + sessionID;

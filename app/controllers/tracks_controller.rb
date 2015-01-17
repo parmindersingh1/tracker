@@ -69,19 +69,26 @@ class TracksController < ApplicationController
   
  
   def getallroutesformap
-#     
+  #     
     # BEGIN
-  # SELECT DISTINCT(sessionId), MAX(gpsTime) gpsTime, 
-  # CONCAT('{ "latitude":"', CAST(latitude AS CHAR),'", "longitude":"', CAST(longitude AS CHAR), '", "speed":"', CAST(speed AS CHAR), '", "direction":"', CAST(direction AS CHAR), '", "distance":"', CAST(distance AS CHAR), '", "locationMethod":"', locationMethod, '", "gpsTime":"', DATE_FORMAT(gpsTime, '%b %e %Y %h:%i%p'), '", "userName":"', userName, '", "phoneNumber":"', phoneNumber, '", "sessionID":"', CAST(sessionID AS CHAR), '", "accuracy":"', CAST(accuracy AS CHAR), '", "extraInfo":"', extraInfo, '" }') json
-  # FROM gpslocations
-  # WHERE sessionID != '0' && CHAR_LENGTH(sessionID) != 0 && gpstime != '0000-00-00 00:00:00'
-  # GROUP BY sessionID;
-# END ;;
+    # SELECT DISTINCT(sessionId), MAX(gpsTime) gpsTime, 
+    # CONCAT('{ "latitude":"', CAST(latitude AS CHAR),'", "longitude":"', CAST(longitude AS CHAR), '", "speed":"', CAST(speed AS CHAR), '", "direction":"', CAST(direction AS CHAR), '", "distance":"', CAST(distance AS CHAR), '", "locationMethod":"', locationMethod, '", "gpsTime":"', DATE_FORMAT(gpsTime, '%b %e %Y %h:%i%p'), '", "userName":"', userName, '", "phoneNumber":"', phoneNumber, '", "sessionID":"', CAST(sessionID AS CHAR), '", "accuracy":"', CAST(accuracy AS CHAR), '", "extraInfo":"', extraInfo, '" }') json
+    # FROM gpslocations
+    # WHERE sessionID != '0' && CHAR_LENGTH(sessionID) != 0 && gpstime != '0000-00-00 00:00:00'
+    # GROUP BY sessionID;
+  # END ;;
     @locations=[] 
-    @locations=Track.where("sessionID != '0' AND CHAR_LENGTH(sessionID) != 0 AND gpstime != '0000-00-00 00:00:00' AND DATE(gpstime) = '#{params[:selecteddate]}'").group(:sessionID)
-    # @locations= Gpslocation.getallroutesformap
-    puts "=================#{@locations.count}"
-    render :json =>  {:locations=> @locations}
+    @tracks=[]
+    # @locations=Track.joins(:vehicle).select("tracks.*, vehicles.registration_no as userName").where("tracks.sessionID != '0' AND CHAR_LENGTH(tracks.sessionID) != 0 AND tracks.gpstime != '0000-00-00 00:00:00' AND DATE(tracks.gpstime) = '#{params[:selecteddate]}'").group("tracks.sessionID")
+    # @locations=Track.where("sessionID != '0' AND CHAR_LENGTH(sessionID) != 0 AND gpstime != '0000-00-00 00:00:00' AND DATE(gpstime) = '#{params[:selecteddate]}'").group(:sessionID).order("id DESC")
+    location_ids = Track.select("MAX(id) AS id").group(:sessionID).collect(&:id)
+    @locations = Track.order("created_at DESC").where("id in (#{location_ids.join(',')}) AND sessionID != '0' AND CHAR_LENGTH(sessionID) != 0 AND gpstime != '0000-00-00 00:00:00' AND DATE(gpstime) = '#{params[:selecteddate]}'").as_json
+    @locations.each do |loc|
+      vehicle = Vehicle.find_by_id(loc["vehicle_id"])     
+      loc["userName"] = vehicle.registration_no
+      @tracks << loc
+    end
+    render :json =>  {:locations=> @tracks}
   end
   
   def getrouteformap
@@ -95,9 +102,14 @@ class TracksController < ApplicationController
 # END
 
     @locations=[] 
-    @locations=Track.where("sessionID = '#{params[:sessionid]}'").order("updated_at DESC")
-   
-    render :json =>  {:locations=> @locations}
+    @tracks=[]
+    @locations=Track.where("sessionID = '#{params[:sessionid]}'").order("updated_at DESC").as_json
+    @locations.each do |loc|
+      vehicle = Vehicle.find_by_id(loc["vehicle_id"])     
+      loc["userName"] = vehicle.registration_no
+      @tracks << loc
+    end
+    render :json =>  {:locations=> @tracks}
   end
   
   def getroutes
@@ -139,10 +151,10 @@ class TracksController < ApplicationController
     @distinct_sessions.each do |session|
       route={}
       route["sessionID"]=session.sessionID
-      # route["userName"]=session.userName
+      
       startTime=Track.where("sessionID = '#{session.sessionID}'  AND DATE(gpstime) = '#{params[:selecteddate]}'").minimum('gpsTime')
       endTime=Track.where("sessionID = '#{session.sessionID}'   AND DATE(gpstime) = '#{params[:selecteddate]}'").maximum('gpsTime')
-      
+      route["userName"]=Track.where("sessionID = '#{session.sessionID}'   AND DATE(gpstime) = '#{params[:selecteddate]}'").first.vehicle.registration_no
       if startTime.nil?
         startTime = CGI::unescape('0000-00-00')
       end 
@@ -235,6 +247,6 @@ class TracksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def track_params
-      params.require(:track).permit(:latitude, :longitude, :sessionID, :speed, :direction, :distance, :gpsTime, :locationMethod, :accuracy, :extraInfo, :eventType, :vehicle_id, :route_id)
+      params.require(:track).permit(:latitude, :longitude, :sessionID, :speed, :direction, :distance, :gpsTime, :locationMethod, :accuracy, :extraInfo, :eventType, :vehicle_id, :route_id, :userName)
     end
 end
