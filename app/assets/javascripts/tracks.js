@@ -90,7 +90,7 @@ var mapInit = function() {
     }    
     
     function loadRoutes(json) {     
-    	// alert(JSON.stringify(json));   
+    	//alert(JSON.stringify(json));     
         if (json.length == 0) {
             showPermanentMessage('There are no routes available to view');
         }
@@ -151,18 +151,20 @@ var mapInit = function() {
 
     function loadGPSLocations(json) {
         // console.log(JSON.stringify(json));
-        
         if (json.length == 0) {
             showPermanentMessage('There is no tracking data to view');
             map.innerHTML = '';
         }
-        else {
+        else {        	
             if (map.id == 'map-canvas') {
                 // clear any old map objects
                 document.getElementById('map-canvas').outerHTML = "<div id='map-canvas'></div>";
            
                 // use leaflet (http://leafletjs.com/) to create our map and map layers
-                var gpsTrackerMap = new L.map('map-canvas');
+                var gpsTrackerMap = new L.map('map-canvas',{
+                	center: [30.7500, 76.7800],
+                	zoom: 13
+                });
             
                 var openStreetMapsURL = ('https:' == document.location.protocol ? 'https://' : 'http://') +
                  '{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -181,11 +183,11 @@ var mapInit = function() {
                 gpsTrackerMap.addLayer(googleMapsLayer);
 
                 // this is the switcher control to switch between map types
-                // gpsTrackerMap.addControl(new L.Control.Layers({
-                    // 'Bing Maps':bingMapsLayer,
-                    // 'Google Maps':googleMapsLayer,
-                    // 'OpenStreetMaps':openStreetMapsLayer
-                // }, {}));
+                gpsTrackerMap.addControl(new L.Control.Layers({
+                    'Bing Maps':bingMapsLayer,
+                    'Google Maps':googleMapsLayer,
+                    'OpenStreetMaps':openStreetMapsLayer
+                }, {}));
             }
 
                 var finalLocation = false;
@@ -279,14 +281,12 @@ var mapInit = function() {
 
         var gpstrackerMarker;
         var title = userName + " - " + gpsTime;
-        var myLatlng = new google.maps.LatLng(latitude,longitude);
+
         // make sure the final red marker always displays on top 
         if (finalLocation) {
             gpstrackerMarker = new L.marker(new L.LatLng(latitude, longitude), {title: title, icon: markerIcon, zIndexOffset: 999}).bindPopup(popupWindowText).addTo(map);
-            // gpstrackerMarker = new google.maps.Marker({position: myLatlng, map: map, title: title });
         } else {
             gpstrackerMarker = new L.marker(new L.LatLng(latitude, longitude), {title: title, icon: markerIcon}).bindPopup(popupWindowText).addTo(map);
-            // gpstrackerMarker = new google.maps.Marker({position: myLatlng, map: map, title: title });
         }
         
         // if we are viewing all routes, we want to go to a route when a user taps on a marker instead of displaying popupWindow
