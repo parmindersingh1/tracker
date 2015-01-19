@@ -23,7 +23,7 @@
         <td><%= stop.longitude %></td>
         <td><%= stop.timeperiod %></td>
         <td><%= stop.sequence %></td>
-        <td><%= stop.route %></td>
+        <td><%= stop.route.name %></td>
          <% if current_user.role == "superuser" || current_user.role == "admin"%>
         <td><%= link_to 'Edit', edit_stop_path(stop) %></td>
         <% end %>

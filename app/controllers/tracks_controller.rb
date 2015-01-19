@@ -213,6 +213,22 @@ class TracksController < ApplicationController
 
       if @location.save
         logger.info("location saved #{@location.id}")
+        within_distance=false
+        @vehicle.routes.each do |route|
+        break unless  route.stops.each do |stop|
+            distance=stop.check_distance [@location.latitude, @location.longitude]
+            if distance <= ENV["DISTANCE"].to_f
+              within_distance = true
+              @location.update_attributes(:route_id => stop.route_id)
+              break
+            end
+          end
+        end
+        
+        if within_distance == false
+          logger_info("**********Send SMS*************");
+        end
+        # check_distance
       else
         logger.info("Error while Saving location #{@location.errors}")
       end
