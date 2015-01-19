@@ -81,7 +81,7 @@ class TracksController < ApplicationController
     # @locations=Track.joins(:vehicle).select("tracks.*, vehicles.registration_no as userName").where("tracks.sessionID != '0' AND CHAR_LENGTH(tracks.sessionID) != 0 AND tracks.gpstime != '0000-00-00 00:00:00' AND DATE(tracks.gpstime) = '#{params[:selecteddate]}'").group("tracks.sessionID")
     # @locations=Track.where("sessionID != '0' AND CHAR_LENGTH(sessionID) != 0 AND gpstime != '0000-00-00 00:00:00' AND DATE(gpstime) = '#{params[:selecteddate]}'").group(:sessionID).order("id DESC")
     location_ids = Track.select("MAX(id) AS id").group(:sessionID).collect(&:id)
-    @locations = Track.order("created_at DESC").where("id in (#{location_ids.join(',')}) AND sessionID != '0' AND CHAR_LENGTH(sessionID) != 0 AND gpstime != '0000-00-00 00:00:00' AND DATE(gpstime) = '#{params[:selecteddate]}'").as_json
+    @locations = Track.order("created_at DESC").where("id in (#{location_ids.join(',')}) AND sessionID != '0' AND CHAR_LENGTH(sessionID) != 0 AND gpsTime != '0000-00-00 00:00:00' AND DATE(gpsTime) = '#{params[:selecteddate]}'").as_json
     @locations.each do |loc|
       vehicle = Vehicle.find_by_id(loc["vehicle_id"])
       loc["userName"] = vehicle.registration_no
@@ -145,14 +145,14 @@ class TracksController < ApplicationController
     @routes=[];
     route=Hash.new
 
-    @distinct_sessions=Track.select(:sessionID).where("DATE(gpstime) = '#{params[:selecteddate]}'").distinct
+    @distinct_sessions=Track.select(:sessionID).where("DATE(gpsTime) = '#{params[:selecteddate]}'").distinct
     @distinct_sessions.each do |session|
       route={}
       route["sessionID"]=session.sessionID
 
-      startTime=Track.where("sessionID = '#{session.sessionID}'  AND DATE(gpstime) = '#{params[:selecteddate]}'").minimum('gpsTime')
-      endTime=Track.where("sessionID = '#{session.sessionID}'   AND DATE(gpstime) = '#{params[:selecteddate]}'").maximum('gpsTime')
-      route["userName"]=Track.where("sessionID = '#{session.sessionID}'   AND DATE(gpstime) = '#{params[:selecteddate]}'").first.vehicle.registration_no
+      startTime=Track.where("sessionID = '#{session.sessionID}'  AND DATE(gpsTime) = '#{params[:selecteddate]}'").minimum('gpsTime')
+      endTime=Track.where("sessionID = '#{session.sessionID}'   AND DATE(gpsTime) = '#{params[:selecteddate]}'").maximum('gpsTime')
+      route["userName"]=Track.where("sessionID = '#{session.sessionID}'   AND DATE(gpsTime) = '#{params[:selecteddate]}'").first.vehicle.registration_no
       if startTime.nil?
         startTime = CGI::unescape('0000-00-00')
       end
