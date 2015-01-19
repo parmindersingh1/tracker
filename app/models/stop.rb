@@ -1,6 +1,11 @@
 class Stop < ActiveRecord::Base
   belongs_to :route
-  validates :latitude,:longitude, :presence => true
+  validates :latitude,:longitude, :presence => true  
+  # before_save :assign_name 
+  reverse_geocoded_by :latitude, :longitude,  :address => :name
+  after_validation :reverse_geocode
+  
+  
   def check_distance  b
     a = [self.latitude,self.longitude]
     rad_per_deg = Math::PI/180  # PI / 180
@@ -19,7 +24,12 @@ class Stop < ActiveRecord::Base
     rm * c # Delta in Kilometers
   end
   
-  
+  # def assign_name
+    # unless self.latitude.nil? && self.longitude.nil?
+    # self.name = Geocoder.search("#{self.latitude}, #{self.longitude}") unless self.name.nil?
+    # puts "(((((((((((((((((((#{Geocoder.search("#{self.latitude}, #{self.longitude}")})))))))))))))))))))"
+    # end
+  # end
 
 # puts distance [46.3625, 15.114444],[46.055556, 14.508333]
 end

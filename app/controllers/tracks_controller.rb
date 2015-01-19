@@ -190,7 +190,7 @@ class TracksController < ApplicationController
     # SELECT NOW();
     # END ;;
 
-    puts "--------------------#{params}"
+    logger.info "--------------------#{params}"
     username = params['username'].present? ? params['username'] : 0
     phoneNumber = params['phonenumber'].present? ? params['phonenumber'] : ''
     @vehicle=Vehicle.find_by_registration_no(username)

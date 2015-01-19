@@ -16,7 +16,11 @@ Rails.application.routes.draw do
   devise_for :users
   resources :schools
 
-  resources :stops
+  resources :stops do
+  collection do
+      get  :create_route_stops
+    end
+  end
 
   resources :routes
 
@@ -24,7 +28,7 @@ Rails.application.routes.draw do
 
   resources :vehicles
 
-  root 'vehicles#index'
+  root 'tracks#display_map'
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

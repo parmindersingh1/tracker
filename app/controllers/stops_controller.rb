@@ -1,6 +1,7 @@
 class StopsController < ApplicationController
   before_action :set_stop, only: [:show, :edit, :update, :destroy]
-  load_and_authorize_resource :except => [:index, :show]
+  load_and_authorize_resource :except => [:index, :show,:create_route_stops]
+  skip_before_filter :authenticate_user!,  :only => [:create_route_stops]
   # GET /stops
   # GET /stops.json
   def index
@@ -61,14 +62,57 @@ class StopsController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_stop
-      @stop = Stop.find(params[:id])
-    end
+   def create_route_stops
+    puts "((((((((((((((((#{params}))))))))))))))))"
+    username = params['username'].present? ? params['username'] : 0
+    phoneNumber = params['phonenumber'].present? ? params['phonenumber'] : ''
+    @vehicle=Vehicle.find_by_registration_no(username)
+    unless @vehicle.nil?
+      @latitude = params['latitude'].present? ? params['latitude'].gsub(',', '.').to_f : '0'
+      @longitude = params['longitude'].present? ? params['longitude'].gsub(',', '.').to_f : '0'
+      @gpsTime = params['date'].present? ?  CGI::unescape(params['date']) :  Time.now
+      @name = params['sessionid'].present? ? params['sessionid'] : 0
+      @route=Route.find_by_name_and_vehicle_id(@name, @vehicle.id)
+      if @route.nil?
+        @route=Route.create({:name=> @name, :start_time => @gpsTime, :vehicle_id => @vehicle.id})
+      end
+    
+      time_interval=0
+      sequence = 1
+      @stop = Stop.new
+      @stop.route = @route
+      @prev_stop= Stop.where(:route_id => @route.id ).last
+       puts "--------------#{@prev_stop.inspect}"
+      unless @prev_stop.nil?
+        time_interval= (Time.parse(DateTime.now.to_s) - Time.parse(@prev_stop.created_at.to_s))/60  #in minutes
+        sequence = @prev_stop.sequence.to_i + 1
+      end
+      @stop.latitude=@latitude
+      @stop.longitude= @longitude
+      @stop.timeperiod=time_interval
+      @stop.sequence=sequence
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def stop_params
-      params.require(:stop).permit(:name, :latitude, :longitude, :timeperiod, :sequence, :route_id)
+      if @stop.save
+        logger.info "successfully Saved Stop with id #{@stop.id}"
+      else
+        logger.info "Error Saving Stop with #{@stop.errors}"
+      end
+
+    else
+      logger.info("No Vehicle Found!")
     end
+    render nothing: true
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_stop
+    @stop = Stop.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def stop_params
+    params.require(:stop).permit(:name, :latitude, :longitude, :timeperiod, :sequence, :route_id)
+  end
 end
