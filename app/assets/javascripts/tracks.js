@@ -112,9 +112,9 @@ var mapInit = function() {
             // iterate through the routes and load them into the dropdwon box.
             $(json.routes).each(function(key, value){
                 var option = document.createElement('option');
-                option.setAttribute('value', '?sessionid=' + $(this).attr('sessionID'));
+                option.setAttribute('value', '?sessionid=' + $(this).attr('sessionid'));
 
-                sessionIDArray.push($(this).attr('sessionID'));
+                sessionIDArray.push($(this).attr('sessionid'));
 
                 option.innerHTML = $(this).attr('userName') + " " + $(this).attr('times');
                 routeSelect.appendChild(option);
@@ -219,12 +219,12 @@ var mapInit = function() {
                         $(this).attr('speed'),
                         $(this).attr('direction'),
                         $(this).attr('distance'),
-                        $(this).attr('locationMethod'),
-                        $(this).attr('gpsTime'),
+                        $(this).attr('locationmethod'),
+                        $(this).attr('gpstime'),
                         $(this).attr('userName'),
-                        $(this).attr('sessionID'),
+                        $(this).attr('sessionid'),
                         $(this).attr('accuracy'),
-                        $(this).attr('extraInfo'),
+                        $(this).attr('extrainfo'),
                         gpsTrackerMap, finalLocation);
                 });
                 
