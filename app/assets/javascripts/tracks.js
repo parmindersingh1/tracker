@@ -228,10 +228,11 @@ var mapInit = function() {
                         gpsTrackerMap, finalLocation);
                 });
                 
+                if(locationArray.length > 0){
                 // fit markers within window
                 var bounds = new L.LatLngBounds(locationArray);
                 gpsTrackerMap.fitBounds(bounds);
-                
+                }
                 // restarting interval here in case we are coming from viewing all routes
                 if (autoRefresh) {
                     restartInterval();
