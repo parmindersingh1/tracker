@@ -1,67 +1,7 @@
 class TracksController < ApplicationController
   require 'cgi'
-  skip_before_filter :authenticate_user!
+  skip_before_filter :authenticate_user!,  :only => [:updatelocation]
   # before_action :set_track, only: [:show, :edit, :update, :destroy]
-
-  # GET /tracks
-  # GET /tracks.json
-  # def index
-  # @tracks = Track.all
-  # end
-  #
-  # # GET /tracks/1
-  # # GET /tracks/1.json
-  # def show
-  # end
-  #
-  # # GET /tracks/new
-  # def new
-  # @track = Track.new
-  # end
-  #
-  # # GET /tracks/1/edit
-  # def edit
-  # end
-  #
-  # # POST /tracks
-  # # POST /tracks.json
-  # def create
-  # @track = Track.new(track_params)
-  #
-  # respond_to do |format|
-  # if @track.save
-  # format.html { redirect_to @track, notice: 'Track was successfully created.' }
-  # format.json { render :show, status: :created, location: @track }
-  # else
-  # format.html { render :new }
-  # format.json { render json: @track.errors, status: :unprocessable_entity }
-  # end
-  # end
-  # end
-  #
-  # # PATCH/PUT /tracks/1
-  # # PATCH/PUT /tracks/1.json
-  # def update
-  # respond_to do |format|
-  # if @track.update(track_params)
-  # format.html { redirect_to @track, notice: 'Track was successfully updated.' }
-  # format.json { render :show, status: :ok, location: @track }
-  # else
-  # format.html { render :edit }
-  # format.json { render json: @track.errors, status: :unprocessable_entity }
-  # end
-  # end
-  # end
-  #
-  # # DELETE /tracks/1
-  # # DELETE /tracks/1.json
-  # def destroy
-  # @track.destroy
-  # respond_to do |format|
-  # format.html { redirect_to tracks_url, notice: 'Track was successfully destroyed.' }
-  # format.json { head :no_content }
-  # end
-  # end
 
   def display_map
 
@@ -80,7 +20,8 @@ class TracksController < ApplicationController
     @tracks=[]
     # @locations=Track.joins(:vehicle).select("tracks.*, vehicles.registration_no as userName").where("tracks.sessionid != '0' AND CHAR_LENGTH(tracks.sessionid) != 0 AND tracks.gpstime != '0000-00-00 00:00:00' AND DATE(tracks.gpstime) = '#{params[:selecteddate]}'").group("tracks.sessionid")
     # @locations=Track.where("sessionid != '0' AND CHAR_LENGTH(sessionid) != 0 AND gpstime != '0000-00-00 00:00:00' AND DATE(gpstime) = '#{params[:selecteddate]}'").group(:sessionid).order("id DESC")
-    location_ids = Track.select("MAX(id) AS id").group(:sessionid).collect(&:id)
+    selected_vehicles=school_vehicles_ids.join(",")
+    location_ids = Track.select("MAX(id) AS id").where("vehicle_id in (#{selected_vehicles})").group(:sessionid).collect(&:id)
     unless location_ids.empty?
     @locations = Track.order("created_at DESC").where("id in (#{location_ids.join(',')}) AND sessionid != '0' AND CHAR_LENGTH(sessionid) != 0 AND gpstime != '0000-00-00 00:00:00' AND DATE(gpstime) = '#{params[:selecteddate]}'").as_json
     @locations.each do |loc|
@@ -100,9 +41,10 @@ class TracksController < ApplicationController
     # WHERE sessionid = _sessionid
     # ORDER BY lastupdate;
     # END
-
+    
     @locations=[]
     @tracks=[]
+    selected_vehicles=school_vehicles_ids.join(",")
     @locations=Track.where("sessionid = '#{params[:sessionid]}'").order("updated_at DESC").as_json
     @locations.each do |loc|
       vehicle = Vehicle.find_by_id(loc["vehicle_id"])
@@ -146,8 +88,8 @@ class TracksController < ApplicationController
     # END
     @routes=[];
     route=Hash.new
-
-    @distinct_sessions=Track.select(:sessionid).where("DATE(gpstime) = '#{params[:selecteddate]}'").distinct
+    selected_vehicles=school_vehicles_ids.join(",")
+    @distinct_sessions=Track.select(:sessionid).where("DATE(gpstime) = '#{params[:selecteddate]}' AND vehicle_id in (#{selected_vehicles})").distinct
     @distinct_sessions.each do |session|
       route={}
       route["sessionid"]=session.sessionid

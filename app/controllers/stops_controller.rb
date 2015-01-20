@@ -5,7 +5,8 @@ class StopsController < ApplicationController
   # GET /stops
   # GET /stops.json
   def index
-    @stops = Stop.all
+    @routes=Route.where(:vehicle_id => school_vehicles_ids).map(&:id)
+    @stops = Stop.where(:route_id => @routes)
   end
 
   # GET /stops/1
@@ -84,7 +85,7 @@ class StopsController < ApplicationController
       @prev_stop= Stop.where(:route_id => @route.id ).last
        puts "--------------#{@prev_stop.inspect}"
       unless @prev_stop.nil?
-        time_interval= (Time.parse(DateTime.now.to_s) - Time.parse(@prev_stop.created_at.to_s))/60  #in minutes
+        time_interval= ((Time.parse(DateTime.now.to_s) - Time.parse(@prev_stop.created_at.to_s))/60).to_i  #in minutes
         sequence = @prev_stop.sequence.to_i + 1
       end
       @stop.latitude=@latitude

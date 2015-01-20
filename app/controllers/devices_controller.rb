@@ -4,7 +4,7 @@ class DevicesController < ApplicationController
   # GET /devices
   # GET /devices.json
   def index
-    @devices = Device.all
+    @devices = Device.where(:vehicle_id => school_vehicles_ids)
   end
 
   # GET /devices/1

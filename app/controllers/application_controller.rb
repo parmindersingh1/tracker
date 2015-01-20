@@ -10,6 +10,15 @@ class ApplicationController < ActionController::Base
     method = "#{resource}_params"
     params[resource] &&= send(method) if respond_to?(method, true)
   end
+  
+  def school_vehicles_ids
+      if current_user.role == "superuser"
+        return Vehicle.all.map(&:id)
+      else
+        return current_user.school.vehicles.map(&:id)
+      end
+  end 
+  
   protected
 
   def configure_permitted_parameters
@@ -17,4 +26,7 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:login, :username, :email, :password, :remember_me, :school_id, :role ) }
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:username, :email, :password, :password_confirmation, :current_password, :school_id, :role) }
   end
+  
+ 
+    
 end

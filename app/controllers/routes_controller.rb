@@ -4,7 +4,7 @@ class RoutesController < ApplicationController
   # GET /routes
   # GET /routes.json
   def index
-    @routes = Route.all
+    @routes = Route.where(:vehicle_id => school_vehicles_ids)  
   end
 
   # GET /routes/1
