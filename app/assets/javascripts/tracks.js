@@ -243,7 +243,7 @@ var mapInit = function() {
     function createMarker(latitude, longitude, speed, direction, distance, locationMethod, gpsTime,
                           userName, sessionID, accuracy, extraInfo, map, finalLocation) {
         var iconUrl;
-
+		
         if (finalLocation) {
             iconUrl = '/assets/coolred_small.png';
         } else {
@@ -292,6 +292,7 @@ var mapInit = function() {
         
         // if we are viewing all routes, we want to go to a route when a user taps on a marker instead of displaying popupWindow
         if (viewingAllRoutes) {
+        	console.log("View All Route");
             gpstrackerMarker.unbindPopup();
             
             gpstrackerMarker.on("click", function() {        

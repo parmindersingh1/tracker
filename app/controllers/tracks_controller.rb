@@ -21,7 +21,11 @@ class TracksController < ApplicationController
     # @locations=Track.joins(:vehicle).select("tracks.*, vehicles.registration_no as userName").where("tracks.sessionid != '0' AND CHAR_LENGTH(tracks.sessionid) != 0 AND tracks.gpstime != '0000-00-00 00:00:00' AND DATE(tracks.gpstime) = '#{params[:selecteddate]}'").group("tracks.sessionid")
     # @locations=Track.where("sessionid != '0' AND CHAR_LENGTH(sessionid) != 0 AND gpstime != '0000-00-00 00:00:00' AND DATE(gpstime) = '#{params[:selecteddate]}'").group(:sessionid).order("id DESC")
     selected_vehicles=school_vehicles_ids.join(",")
+    unless selected_vehicles.empty?
     location_ids = Track.select("MAX(id) AS id").where("vehicle_id in (#{selected_vehicles})").group(:sessionid).collect(&:id)
+    else
+    location_ids = Track.select("MAX(id) AS id").group(:sessionid).collect(&:id)  
+    end
     unless location_ids.empty?
     @locations = Track.order("created_at DESC").where("id in (#{location_ids.join(',')}) AND sessionid != '0' AND CHAR_LENGTH(sessionid) != 0 AND gpstime != '0000-00-00 00:00:00' AND DATE(gpstime) = '#{params[:selecteddate]}'").as_json
     @locations.each do |loc|
@@ -89,7 +93,11 @@ class TracksController < ApplicationController
     @routes=[];
     route=Hash.new
     selected_vehicles=school_vehicles_ids.join(",")
+    unless selected_vehicles.empty?
     @distinct_sessions=Track.select(:sessionid).where("DATE(gpstime) = '#{params[:selecteddate]}' AND vehicle_id in (#{selected_vehicles})").distinct
+    else
+    @distinct_sessions=Track.select(:sessionid).where("DATE(gpstime) = '#{params[:selecteddate]}'").distinct  
+    end 
     @distinct_sessions.each do |session|
       route={}
       route["sessionid"]=session.sessionid
