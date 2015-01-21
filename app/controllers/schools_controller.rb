@@ -4,7 +4,11 @@ class SchoolsController < ApplicationController
   # GET /schools
   # GET /schools.json
   def index
-    @schools = current_user.school
+    unless current_user.role == "superuser"
+      @schools = current_user.school
+    else
+      @schools=School.all
+    end
   end
 
   # GET /schools/1
