@@ -20,4 +20,5 @@
 //= require leaflet-plugins/bing
 //= require moment
 //= require bootstrap-datetimepicker.min
+//= require validation
 //= require_tree .
