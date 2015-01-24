@@ -13,7 +13,7 @@
 		<div>
 			<%= f.label :email %>
 			<br />
-			<%= f.email_field :email,,:class=>"form-control", autofocus: true,:required => true  %>
+			<%= f.email_field :email,:class=>"form-control", autofocus: true,:required => true  %>
 		</div>
 
 		<% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -45,8 +45,9 @@
 			<br>
 			<%= f.select(:school_id ,School.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control", :required => true})%>
 		</div>
+		<br>
 		<div>
-			<%= f.submit "Update" %>
+			<%= f.submit "Update", :class=>"btn btn-primary btn-lg btn-block" %>
 		</div>
 		<% end %>
 

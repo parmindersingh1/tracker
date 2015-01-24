@@ -15,6 +15,7 @@ class RoutesController < ApplicationController
   # GET /routes/new
   def new
     @route = Route.new
+    @vehicles = Vehicle.where(:id => school_vehicles_ids)
   end
 
   # GET /routes/1/edit

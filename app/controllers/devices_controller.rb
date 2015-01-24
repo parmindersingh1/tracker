@@ -16,6 +16,7 @@ class DevicesController < ApplicationController
   # GET /devices/new
   def new
     @device = Device.new
+    @vehicles = Vehicle.where(:id => school_vehicles_ids)
   end
 
   # GET /devices/1/edit

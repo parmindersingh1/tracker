@@ -28,11 +28,16 @@
 	<br>
 	<%= f.text_field :vehicle_type ,:class=> "form-control", :required => true,:placeholder => "Vehicle Type"%>
 </div>
-<div class="field">
+<div class="field">	
+	 <% if current_user.role == "superuser"%>
 	<%= f.label :school_id %>
-	<br>
+	<br> 	
 	<%= f.select(:school_id ,School.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control", :required => true})%>
+	<%else%>
+	<%=f.hidden_field :school_id, :value=> @school.id %>
+	<%end%>
 </div>
+<br>
 <div class="actions">
 	<%= f.submit "Submit",:class=> "btn btn-primary btn-lg btn-block"%>
 </div>

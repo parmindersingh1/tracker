@@ -37,8 +37,9 @@
  
   <div class="field">
     <%= f.label :vehicle_id %><br>
-    <%= f.select(:vehicle_id ,Vehicle.all.map {|c| [c.registration_no, c.id]} ,{:prompt => "Select"}, {:class=>"form-control", :required => true})%>
+    <%= f.select(:vehicle_id ,@vehicles.map {|c| [c.registration_no, c.id]} ,{:prompt => "Select"}, {:class=>"form-control", :required => true})%>
   </div>
+  <br>
   <div class="actions">
     <%= f.submit "Submit", :class=> "btn btn-primary btn-lg btn-block"%>
   </div>

@@ -15,6 +15,7 @@ class VehiclesController < ApplicationController
   # GET /vehicles/new
   def new
     @vehicle = Vehicle.new
+    @school = current_user.school
   end
 
   # GET /vehicles/1/edit

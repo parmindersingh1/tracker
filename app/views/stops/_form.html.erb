@@ -33,8 +33,9 @@
   </div>
   <div class="field">
     <%= f.label :route_id %><br>
-    <%= f.select(:route_id ,Route.all.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control"})%>
+    <%= f.select(:route_id ,@routes.map {|c| [c.name, c.id]} ,{:prompt => "Select"}, {:class=>"form-control"})%>
   </div>
+  <br>
   <div class="actions">
     <%= f.submit "submit", :class=> "btn btn-primary btn-lg btn-block"%>
   </div>
