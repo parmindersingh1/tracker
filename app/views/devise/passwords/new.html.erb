@@ -5,8 +5,8 @@
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :username %><br />
-  <%= f.text_field :username, autofocus: true,:class=>"form-control", :required => true,:placeholder =>"Email or Username"  %></div>
+  <div><%= f.label :email %><br />
+  <%= f.text_field :email, autofocus: true,:class=>"form-control", :required => true,:placeholder =>"Email"  %></div>
   <br>
   <div><%= f.submit "Send Me Reset Password Instructions" , :class=> "btn btn-primary btn-lg btn-block"%></div>
 <% end %>

@@ -4,7 +4,7 @@ class TracksController < ApplicationController
   # before_action :set_track, only: [:show, :edit, :update, :destroy]
 
   def display_map
-
+ puts "--------------#{current_user.inspect}"
   end
 
   def getallroutesformap
