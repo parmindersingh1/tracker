@@ -17,7 +17,7 @@
     <% @routes.each do |route| %>
       <tr>
         <td><%= route.name %></td>
-        <td><%= route.start_time %></td>
+        <td><%= Time.parse(route.start_time.to_s).strftime("%H:%M:%S")  %></td>
         <td><%= route.end_time %></td>
         <td><%= route.vehicle.registration_no %></td>
          <% if current_user.role == "superuser" || current_user.role == "admin"%>
