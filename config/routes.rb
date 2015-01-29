@@ -12,8 +12,11 @@ Rails.application.routes.draw do
   get 'tracks/getroutes'
   get 'tracks/updatelocation'
   get 'tracks/deleteroute'
+  
+  
+  devise_for :users, :controllers => {sessions: 'sessions'}
 
-  devise_for :users
+  # devise_for :users, skip: :registrations, controllers: { sessions: "sessions", passwords: "passwords" }
   resources :schools
 
   resources :stops do
