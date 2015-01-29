@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get 'tracks/updatelocation'
   get 'tracks/deleteroute'
   
-  
+    
   devise_for :users, :controllers => {sessions: 'sessions'}
 
   # devise_for :users, skip: :registrations, controllers: { sessions: "sessions", passwords: "passwords" }
@@ -29,8 +29,11 @@ Rails.application.routes.draw do
 
   resources :devices
 
-  resources :vehicles
-
+  resources :vehicles do
+   collection do
+      get  :users_vehicles
+    end
+end
   root 'tracks#display_map'
   
   # The priority is based upon order of creation: first created -> highest priority.

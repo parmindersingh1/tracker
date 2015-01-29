@@ -9,7 +9,6 @@ class SessionsController < Devise::SessionsController
         format.json { render json: { success: true, path: root_path } }     
     end
     
-    # return render json: { success: true, path: root_path }
   end
 
   def failure
@@ -18,8 +17,6 @@ class SessionsController < Devise::SessionsController
         format.json { render json: { success: false, errors: ['Login information is incorrect, please try again'] } }     
     end
     
-    
-    
-    # return render json: { success: false, errors: ['Login information is incorrect, please try again'] }
+      
   end
 end
