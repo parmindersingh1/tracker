@@ -257,4 +257,7 @@ Devise.setup do |config|
    config.authentication_keys = [ :login ]
    # config.reset_password_keys = [ :username ]
    # config.confirmation_keys = [ :username ]
+   
+   config.http_authenticatable_on_xhr = false
+   config.navigational_formats = ["*/*", :html, :json] 
 end

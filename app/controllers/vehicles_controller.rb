@@ -62,6 +62,15 @@ class VehiclesController < ApplicationController
     end
   end
 
+def users_vehicles(user)
+      myUser = User.find_by_id(user)
+      if myUser.role == "superuser"
+        @vehicles =  Vehicle.all.map(&:id)
+      else
+        @vehicles = myUser.school.vehicles.map(&:id)
+      end
+      render json: {:vehicles=>@vehicles,:message=>"Vehicles Loded Successfully",:success=>"true",:total => @vehicles.count}
+  end 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_vehicle
