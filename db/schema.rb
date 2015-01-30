@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150116033253) do
+ActiveRecord::Schema.define(version: 20150128073031) do
 
   create_table "devices", force: true do |t|
     t.string   "mobile_no"
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20150116033253) do
 
   create_table "routes", force: true do |t|
     t.string   "name"
-    t.datetime "start_time"
-    t.datetime "end_time"
+    t.time     "start_time"
+    t.time     "end_time"
     t.integer  "vehicle_id"
     t.datetime "created_at"
     t.datetime "updated_at"
