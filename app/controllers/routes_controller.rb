@@ -61,6 +61,11 @@ class RoutesController < ApplicationController
       format.json { head :no_content }
     end
   end
+def users_routes(user)
+   myUser = User.find_by_id(user)
+  @routes = Route.where(:vehicle_id => school_vehicles_ids(myUser))
+  render json: {:routes=>@routes,:message=>"Routes Loded Successfully",:success=>"true",:total => @routes.count}
+end
 
   private
     # Use callbacks to share common setup or constraints between actions.
