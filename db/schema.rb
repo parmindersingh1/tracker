@@ -59,15 +59,15 @@ ActiveRecord::Schema.define(version: 20150128073031) do
   create_table "tracks", force: true do |t|
     t.decimal  "latitude",       precision: 10, scale: 7
     t.decimal  "longitude",      precision: 10, scale: 7
-    t.string   "sessionid"
+    t.string   "sessionID"
     t.integer  "speed"
     t.integer  "direction"
     t.decimal  "distance",       precision: 10, scale: 1
-    t.datetime "gpstime"
-    t.string   "locationmethod"
+    t.datetime "gpsTime"
+    t.string   "locationMethod"
     t.integer  "accuracy"
-    t.string   "extrainfo"
-    t.string   "eventtype"
+    t.string   "extraInfo"
+    t.string   "eventType"
     t.integer  "vehicle_id"
     t.integer  "route_id"
     t.datetime "created_at"
