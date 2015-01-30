@@ -11,9 +11,8 @@ class ApplicationController < ActionController::Base
     params[resource] &&= send(method) if respond_to?(method, true)
   end
   
-  def school_vehicles_ids(user)
-      user = current_user if user.nil?
-      if user.role == "superuser"
+  def school_vehicles_ids
+      if current_user.role == "superuser"
         return Vehicle.all.map(&:id)
       else
         return current_user.school.vehicles.map(&:id)

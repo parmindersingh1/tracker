@@ -4,7 +4,7 @@ class RoutesController < ApplicationController
   # GET /routes
   # GET /routes.json
   def index
-    @routes = Route.where(:vehicle_id => school_vehicles_ids)  
+    @routes = Route.where(:vehicle_id => school_vehicles_ids)
   end
 
   # GET /routes/1
@@ -24,7 +24,7 @@ class RoutesController < ApplicationController
 
   # POST /routes
   # POST /routes.json
-  def create   
+  def create
     @route = Route.new(route_params)
 
     respond_to do |format|
@@ -61,20 +61,22 @@ class RoutesController < ApplicationController
       format.json { head :no_content }
     end
   end
-def users_routes(user)
-   myUser = User.find_by_id(user)
-  @routes = Route.where(:vehicle_id => school_vehicles_ids(myUser))
-  render json: {:routes=>@routes,:message=>"Routes Loded Successfully",:success=>"true",:total => @routes.count}
-end
+
+  def users_routes(user)
+    myUser = current_user
+    @routes = Route.where(:vehicle_id => school_vehicles_ids(myUser))
+    render json: {:routes=>@routes,:message=>"Routes Loded Successfully",:success=>"true",:total => @routes.count}
+  end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_route
-      @route = Route.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def route_params        
-      params.require(:route).permit(:name, :start_time, :end_time, :vehicle_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_route
+    @route = Route.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def route_params
+    params.require(:route).permit(:name, :start_time, :end_time, :vehicle_id)
+  end
 end
