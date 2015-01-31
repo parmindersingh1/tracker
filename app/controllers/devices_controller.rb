@@ -1,6 +1,7 @@
 class DevicesController < ApplicationController
   before_action :set_device, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource :except => [:index, :show]
+  skip_before_filter :verify_authenticity_token, :only => [:create]
   # GET /devices
   # GET /devices.json
   def index
@@ -31,10 +32,10 @@ class DevicesController < ApplicationController
     respond_to do |format|
       if @device.save
         format.html { redirect_to devices_path, notice: 'Device was successfully created.' }
-        format.json { render :show, status: :created, location: @device }
+        format.json { render :json=>{:message=> "Device Successfully Saved", :success=> true}}
       else
         format.html { render :new }
-        format.json { render json: @device.errors, status: :unprocessable_entity }
+        format.json { render :json=>{ :message=>@device.errors, :success=> false}}
       end
     end
   end

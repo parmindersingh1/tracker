@@ -1,6 +1,7 @@
 class RoutesController < ApplicationController
   before_action :set_route, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource :except => [:index, :show]
+  skip_before_filter :verify_authenticity_token, :only => [:create]
   # GET /routes
   # GET /routes.json
   def index
@@ -30,10 +31,10 @@ class RoutesController < ApplicationController
     respond_to do |format|
       if @route.save
         format.html { redirect_to routes_path, notice: 'Route was successfully created.' }
-        format.json { render :show, status: :created, location: @route }
+        format.json { render :json=>{:route=>@route,:message=> "Route Successfully Saved", :success=> true} }
       else
         format.html { render :new }
-        format.json { render json: @route.errors, status: :unprocessable_entity }
+        format.json { render :json=>{ :message=>@route.errors, :success=> false} }
       end
     end
   end
