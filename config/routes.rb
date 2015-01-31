@@ -36,15 +36,19 @@ resources :users
     end
   end
 
-  resources :routes
+  resources :routes do
+   collection do
+      get  :user_routes
+    end
+  end
 
   resources :devices
 
   resources :vehicles do
    collection do
-      get  :users_vehicles
+      get  :user_vehicles
     end
-end
+  end
   root 'tracks#display_map'
   
   # The priority is based upon order of creation: first created -> highest priority.

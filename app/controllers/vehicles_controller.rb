@@ -62,15 +62,16 @@ class VehiclesController < ApplicationController
     end
   end
 
-def users_vehicles(user)
-      myUser = User.find_by_id(user)
+def user_vehicles
+      myUser = User.find_by_id(params["user"])
       if myUser.role == "superuser"
-        @vehicles =  Vehicle.all.map(&:id)
+        @vehicles =  Vehicle.all
       else
-        @vehicles = myUser.school.vehicles.map(&:id)
+        @vehicles = myUser.school.vehicles
       end
       render json: {:vehicles=>@vehicles,:message=>"Vehicles Loded Successfully",:success=>"true",:total => @vehicles.count}
   end 
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_vehicle
@@ -79,6 +80,8 @@ def users_vehicles(user)
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def vehicle_params
+      unless params["action"]=="user_vehicles"
       params.require(:vehicle).permit(:registration_no, :capacity, :vehicle_type, :school_id)
+      end
     end
 end

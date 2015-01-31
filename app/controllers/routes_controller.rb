@@ -62,9 +62,14 @@ class RoutesController < ApplicationController
     end
   end
 
-  def users_routes(user)
-    myUser = current_user
-    @routes = Route.where(:vehicle_id => school_vehicles_ids(myUser))
+  def user_routes
+    myUser = User.find_by_id(params["user"])
+     if myUser.role == "superuser"
+        @routes =  Route.all
+    else
+     user_vehicles = myUser.school.vehicles.map(&:id)
+    @routes = Route.where(:vehicle_id => user_vehicles)    
+    end
     render json: {:routes=>@routes,:message=>"Routes Loded Successfully",:success=>"true",:total => @routes.count}
   end
 
@@ -77,6 +82,8 @@ class RoutesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def route_params
-    params.require(:route).permit(:name, :start_time, :end_time, :vehicle_id)
+    unless params["action"] == "user_routes"
+    params.require(:route).permit(:name, :start_time, :end_time, :vehicle_id, :user)
+    end
   end
 end
