@@ -34,6 +34,7 @@ gem 'momentjs-rails', '>= 2.8.1'
 gem 'spring',        group: :development
 gem 'devise'
 gem 'cancan'
+gem 'rack-cors', :require => 'rack/cors'
 # gem 'rolify'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

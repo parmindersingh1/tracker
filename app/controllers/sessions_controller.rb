@@ -1,38 +1,51 @@
-class SessionsController < Devise::SessionsController
-def create
-    resource = warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#new")
-    set_flash_message(:notice, :signed_in) if is_navigational_format?
-    sign_in(resource_name, resource)
+class SessionsController < Devise::SessionsController 
+  skip_before_filter :verify_authenticity_token 
+  
+  def create
     respond_to do |format|  
-      format.html { respond_with resource, :location => after_sign_in_path_for(resource) }  
+      format.html { super }  
       format.json {  
-         return render :json => {  :success => true, 
-           :user => resource
+        resource = warden.authenticate!(:scope => resource_name, :recall => "#{controller_path}#failure")  
+        render :json => {  :success => true, 
+           :data => resource, :total => 1, :message => "Logged In"
          } 
-      }  
-    end
+      }
+    end  
   end
+
   def destroy
-    sign_out(resource_name)
-    set_flash_message(:notice, :signed_out) if is_navigational_format?
-    respond_to do |format|  
-      format.html { redirect_to new_user_session_path }  
+    respond_to do |format|
+      format.html {super}
       format.json {  
-         return render json: { success: true }, status: :ok
-      }  
+        Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+        render :json => {:success => true, :message => "Logged Out"}
+      }
     end
   end
-  
-  protected
-  def ensure_params_exist
-    return unless params[:user_login].blank?
-    render :json=>{:success=>false, :message=>"missing user_login parameter"}, :status=>422
+
+  def failure
+    respond_to do |format|
+    format.html {super}
+    format.json {
+      warden.custom_failure!
+      render :json => {:success => false, :errors => ["Login Failed"]}
+    }
   end
- 
-  def invalid_login_attempt
-    warden.custom_failure!
-    render :json=> {:success=>false, :message=>"Error with your login or password"}, :status=>401
-  end
-  
-  
+ end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 end
+
+
