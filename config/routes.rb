@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'tracks/getallroutesformap'
   get 'tracks/getrouteformap'
   get 'tracks/getroutes'
-  get 'tracks/updatelocation'
+  post 'tracks/updatelocation'
   get 'tracks/deleteroute'
   
     
@@ -32,7 +32,7 @@ resources :users
 
   resources :stops do
   collection do
-      get  :create_route_stops
+      post  :create_route_stops
     end
   end
 

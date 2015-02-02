@@ -1,6 +1,6 @@
 class TracksController < ApplicationController
   require 'cgi'
-  skip_before_filter :authenticate_user!,  :only => [:updatelocation]
+  skip_before_filter :verify_authenticity_token,  :only => [:updatelocation]
   # before_action :set_track, only: [:show, :edit, :update, :destroy]
 
   def display_map
@@ -142,53 +142,57 @@ class TracksController < ApplicationController
     # SELECT NOW();
     # END ;;
 
-    logger.info "--------------------#{params}"
-    username = params['username'].present? ? params['username'] : 0
-    phoneNumber = params['phonenumber'].present? ? params['phonenumber'] : ''
-    @vehicle=Vehicle.find_by_registration_no(username)
+    logger.info "--------------------#{track_params}"
+    # username = params['username'].present? ? params['username'] : 0
+    # phoneNumber = params['phonenumber'].present? ? params['phonenumber'] : ''
+    @device = Device.find_by_imei_no(track_params[:device])
+    @vehicle=@device.vehicle
     unless @vehicle.nil?
-      location={}
-      location["latitude"] = params['latitude'].present? ? params['latitude'].gsub(',', '.').to_f : '0'
-      location["longitude"] = params['longitude'].present? ? params['longitude'].gsub(',', '.').to_f : '0'
-      location["speed"] = params['speed'].present? ? params['speed'] : 0
-      location["direction"] = params['direction'].present? ? params['direction'] : 0
-      location["distance"] = params['distance'].present?  ? params['distance'].gsub(',', '.').to_f : '0'
-      location["gpstime"] = params['date'].present? ?  CGI::unescape(params['date']) :  Time.now
-      location["locationmethod"] = params['locationmethod'].present? ?  CGI::unescape(params['locationmethod']) : ''
-      location["sessionid"] = params['sessionid'].present? ? params['sessionid'] : 0
-      location["accuracy"] = params['accuracy'].present? ? params['accuracy'] : 0
-      location["extrainfo"] = params['extrainfo'].present? ? params['extrainfo'] : ''
-      location["eventtype"] = params['eventtype'].present? ? params['eventtype'] : ''
-
-      @location = Track.new(location)
+      # location={}
+      # location["latitude"] = params['latitude'].present? ? params['latitude'].gsub(',', '.').to_f : '0'
+      # location["longitude"] = params['longitude'].present? ? params['longitude'].gsub(',', '.').to_f : '0'
+      # location["speed"] = params['speed'].present? ? params['speed'] : 0
+      # location["direction"] = params['direction'].present? ? params['direction'] : 0
+      # location["distance"] = params['distance'].present?  ? params['distance'].gsub(',', '.').to_f : '0'
+      # location["gpstime"] = params['date'].present? ?  CGI::unescape(params['date']) :  Time.now
+      # location["locationmethod"] = params['locationmethod'].present? ?  CGI::unescape(params['locationmethod']) : ''
+      # location["sessionid"] = params['sessionid'].present? ? params['sessionid'] : 0
+      # location["accuracy"] = params['accuracy'].present? ? params['accuracy'] : 0
+      # location["extrainfo"] = params['extrainfo'].present? ? params['extrainfo'] : ''
+      # location["eventtype"] = params['eventtype'].present? ? params['eventtype'] : ''
+# 
+      @location = Track.new(track_params)
       @location.vehicle=@vehicle
 
       if @location.save
         logger.info("location saved #{@location.id}")
-        within_distance=false
-        @vehicle.routes.each do |route|
-        break unless  route.stops.each do |stop|
-            distance=stop.check_distance [@location.latitude, @location.longitude]
-            if distance <= ENV["DISTANCE"].to_f
-              within_distance = true
-              @location.update_attributes(:route_id => stop.route_id)
-              break
-            end
-          end
-        end
-        
-        if within_distance == false
-          logger_info("**********Send SMS*************");
-        end
+        # within_distance=false
+        # @vehicle.routes.each do |route|
+        # break unless  route.stops.each do |stop|
+            # distance=stop.check_distance [@location.latitude, @location.longitude]
+            # if distance <= ENV["DISTANCE"].to_f
+              # within_distance = true
+              # @location.update_attributes(:route_id => stop.route_id)
+              # break
+            # end
+          # end
+        # end
+#         
+        # if within_distance == false
+          # logger_info("**********Send SMS*************");
+        # end
         # check_distance
+        render :json => {:message=> "Location Saved Successfully", :success => true}
       else
         logger.info("Error while Saving location #{@location.errors}")
+        render :json => {:message=> @location.errors,:success => false}
       end
     else
       logger.info("No Vehicle Found!")
+      render :json => {:message=> "No Vehicle Found!",:success => false}
     end
 
-    render nothing: true
+    # render nothing: true
   end
 
   def deleteroute
@@ -217,6 +221,6 @@ class TracksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def track_params
-    params.require(:track).permit(:latitude, :longitude, :sessionid, :speed, :direction, :distance, :gpstime, :locationmethod, :accuracy, :extrainfo, :eventtype, :vehicle_id, :route_id, :userName)
+    params.require(:track).permit(:latitude, :longitude, :sessionid, :speed, :direction, :distance, :gpstime, :locationmethod, :accuracy, :extrainfo, :eventtype, :vehicle_id, :route_id, :device)
   end
 end

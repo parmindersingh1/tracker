@@ -1,6 +1,7 @@
 class Stop < ActiveRecord::Base
   belongs_to :route
   validates :latitude,:longitude, :presence => true  
+  attr_accessor :gpstime
   # before_save :assign_name 
   reverse_geocoded_by :latitude, :longitude,  :address => :name
   after_validation :reverse_geocode

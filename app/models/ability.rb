@@ -12,6 +12,7 @@ class Ability
       can [:users], :admin_panel
     elsif user.role == "user"
       can :read, :all
+      can [:user_routes], [Route]
     else
       can :read, :all
     end

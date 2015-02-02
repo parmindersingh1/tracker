@@ -1,6 +1,6 @@
 class SessionsController < Devise::SessionsController 
   skip_before_filter :verify_authenticity_token 
-  
+  skip_before_filter :require_no_authentication, :only => [:create ]
   def create
     respond_to do |format|  
       format.html { super }  
@@ -24,11 +24,12 @@ class SessionsController < Devise::SessionsController
   end
 
   def failure
+    puts "-------------"
     respond_to do |format|
     format.html {super}
     format.json {
       warden.custom_failure!
-      render :json => {:success => false, :errors => ["Login Failed"]}
+      render :json => {:success => false, :errors => ["Login Failed"], :message => "Login Failed"}
     }
   end
  end
