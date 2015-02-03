@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get 'tracks/deleteroute'
   
     
-  devise_for :users, :controllers => {sessions: 'sessions'}
+  devise_for :users, :controllers => {sessions: 'sessions', :passwords => "passwords"}
   
   # devise_for :users, :controllers => { :sessions => "api/v1/sessions" }
   # devise_scope :user do
