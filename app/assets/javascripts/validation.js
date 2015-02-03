@@ -1,14 +1,14 @@
 $(document).ready(function() {
 
-	$("#new_school").submit(function(event) {
-		var phone = ("#school_phone_no").val();
-		if(!phonenumber(phone)){
-			event.preventDefault();
-			$(this).children(".alert-danger").html('<button class="close"   type="button">x</button><li>Please Enter Correct Number</li>');
-			$(this).children(".alert-danger").css("display", "block");
-		}
-
-	});
+	// $("#new_school").submit(function(event) {
+		// var phone = ("#school_phone_no").val();
+		// if(!phonenumber(phone)){
+			// event.preventDefault();
+			// $(this).children(".alert-danger").html('<button class="close"   type="button">x</button><li>Please Enter Correct Number</li>');
+			// $(this).children(".alert-danger").css("display", "block");
+		// }
+// 
+	// });
 	
 	
 	$("#new_device").submit(function(event) {

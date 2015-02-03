@@ -147,6 +147,7 @@ class TracksController < ApplicationController
     # phoneNumber = params['phonenumber'].present? ? params['phonenumber'] : ''
     @device = Device.find_by_imei_no(track_params[:device])
     @vehicle=@device.vehicle
+    @route= Route.find_by_id(track_params[:route_id])
     unless @vehicle.nil?
       # location={}
       # location["latitude"] = params['latitude'].present? ? params['latitude'].gsub(',', '.').to_f : '0'
@@ -166,22 +167,25 @@ class TracksController < ApplicationController
 
       if @location.save
         logger.info("location saved #{@location.id}")
-        # within_distance=false
-        # @vehicle.routes.each do |route|
-        # break unless  route.stops.each do |stop|
-            # distance=stop.check_distance [@location.latitude, @location.longitude]
-            # if distance <= ENV["DISTANCE"].to_f
-              # within_distance = true
-              # @location.update_attributes(:route_id => stop.route_id)
-              # break
-            # end
-          # end
-        # end
-#         
-        # if within_distance == false
-          # logger_info("**********Send SMS*************");
-        # end
-        # check_distance
+        within_distance=false
+        
+         @route.stops.each do |stop|
+            distance=stop.check_distance [@location.latitude, @location.longitude]
+            if distance <= ENV["DISTANCE"].to_f
+              within_distance = true              
+              break
+            end
+          end
+   
+        
+        if within_distance == false
+          logger_info("**********Send SMS*************");
+           @response = SmsManager.new("#{@vehicle.registration_no} is out of track",@device.school.phone_no)
+             if @response == "something went worng"
+                logger_info("Error Sending Message to #{@track.id}")                  
+             end       
+        end
+        check_distance
         render :json => {:message=> "Location Saved Successfully", :success => true}
       else
         logger.info("Error while Saving location #{@location.errors}")
