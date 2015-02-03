@@ -16,7 +16,7 @@
 @school1.save!
 
 @user1 = User.new(
-      :username              => "shaktiman", 
+      :username              => "superadmin", 
       :email                 => "abc@gmail.com",
       :password              => "password",
       :password_confirmation => "password",
