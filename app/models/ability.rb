@@ -9,6 +9,7 @@ class Ability
       can [:users,:edit_role,:update_role], :admin_panel
     elsif user.role == "admin"
       can [:read, :create, :update], [Device, Route, Stop, Vehicle]
+      can [:user_routes], [Route]
       can [:users], :admin_panel
     elsif user.role == "user"
       can :read, :all

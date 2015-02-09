@@ -116,7 +116,7 @@ var mapInit = function() {
 
                 sessionIDArray.push($(this).attr('sessionid'));
 
-                option.innerHTML = $(this).attr('userName') + " " + $(this).attr('times');
+                option.innerHTML = $(this).attr('userName') + " " +$(this).attr('route_name') + " " +$(this).attr('times');
                 routeSelect.appendChild(option);
             });
 
@@ -225,6 +225,7 @@ var mapInit = function() {
                         $(this).attr('sessionid'),
                         $(this).attr('accuracy'),
                         $(this).attr('extrainfo'),
+                        $(this).attr('route_name'),
                         gpsTrackerMap, finalLocation);
                 });
                 
@@ -241,7 +242,7 @@ var mapInit = function() {
     }
 
     function createMarker(latitude, longitude, speed, direction, distance, locationMethod, gpsTime,
-                          userName, sessionID, accuracy, extraInfo, map, finalLocation) {
+                          userName, sessionID, accuracy, extraInfo,route_name, map, finalLocation) {
         var iconUrl;
 		
         if (finalLocation) {
@@ -273,6 +274,7 @@ var mapInit = function() {
         var popupWindowText = "<table border=0 style=\"font-size:95%;font-family:arial,helvetica,sans-serif;color:#000;\">" +
             "<tr><td align=right>&nbsp;</td><td>&nbsp;</td><td rowspan=2 align=right>" +
             "<img src=/assets/" + getCompassImage(direction) + ".jpg alt= />" + lastMarker +
+            "<tr><td align=right>Route:&nbsp;</td><td>" + route_name +  "</td></tr>" +
             "<tr><td align=right>Speed:&nbsp;</td><td>" + speed +  " mph</td></tr>" +
             "<tr><td align=right>Distance:&nbsp;</td><td>" + distance +  " mi</td><td>&nbsp;</td></tr>" +
             "<tr><td align=right>Time:&nbsp;</td><td colspan=2>" + gpsTime +  "</td></tr>" +

@@ -31,6 +31,7 @@ class TracksController < ApplicationController
     @locations.each do |loc|
       vehicle = Vehicle.find_by_id(loc["vehicle_id"])
       loc["userName"] = vehicle.registration_no
+      loc["route_name"]  = loc.route.name
       @tracks << loc
     end
     end
@@ -53,6 +54,7 @@ class TracksController < ApplicationController
     @locations.each do |loc|
       vehicle = Vehicle.find_by_id(loc["vehicle_id"])
       loc["userName"] = vehicle.registration_no
+      loc["route_name"]  = loc.route.name
       @tracks << loc
     end
     render :json =>  {:locations=> @tracks}
@@ -104,7 +106,9 @@ class TracksController < ApplicationController
 
       startTime=Track.where("sessionid = '#{session.sessionid}'  AND DATE(gpstime) = '#{params[:selecteddate]}'").minimum('gpstime')
       endTime=Track.where("sessionid = '#{session.sessionid}'   AND DATE(gpstime) = '#{params[:selecteddate]}'").maximum('gpstime')
-      route["userName"]=Track.where("sessionid = '#{session.sessionid}'   AND DATE(gpstime) = '#{params[:selecteddate]}'").first.vehicle.registration_no
+      first_track = Track.where("sessionid = '#{session.sessionid}'   AND DATE(gpstime) = '#{params[:selecteddate]}'").first
+      route["userName"]=first_track.vehicle.registration_no
+      route["route_name"]=first_track.route.name
       if startTime.nil?
         startTime = CGI::unescape('0000-00-00')
       end
