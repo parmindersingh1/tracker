@@ -150,6 +150,7 @@ class TracksController < ApplicationController
     # username = params['username'].present? ? params['username'] : 0
     # phoneNumber = params['phonenumber'].present? ? params['phonenumber'] : ''
     @device = Device.find_by_imei_no(track_params[:device])
+    unless @device.nil? && !@device.is_enabled
     @vehicle=@device.vehicle
     @route= Route.find_by_id(track_params[:route_id])
     unless @vehicle.nil?
@@ -198,6 +199,10 @@ class TracksController < ApplicationController
     else
       logger.info("No Vehicle Found!")
       render :json => {:message=> "No Vehicle Found!",:success => false}
+    end
+    else
+      logger.info("No Active Device Found!")
+      render :json => {:message=> "No Active Device Found!",:success => false}
     end
 
     # render nothing: true
