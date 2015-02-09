@@ -20,6 +20,7 @@ class VehiclesController < ApplicationController
 
   # GET /vehicles/1/edit
   def edit
+    @school = current_user.school
   end
 
   # POST /vehicles

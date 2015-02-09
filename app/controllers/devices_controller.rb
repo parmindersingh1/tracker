@@ -22,6 +22,7 @@ class DevicesController < ApplicationController
 
   # GET /devices/1/edit
   def edit
+      @vehicles = Vehicle.where(:id => school_vehicles_ids)
   end
 
   # POST /devices

@@ -22,6 +22,7 @@ class StopsController < ApplicationController
 
   # GET /stops/1/edit
   def edit
+    @routes=Route.where(:vehicle_id => school_vehicles_ids).map(&:id)
   end
 
   # POST /stops
