@@ -17,12 +17,12 @@ class StopsController < ApplicationController
   # GET /stops/new
   def new
     @stop = Stop.new
-    @routes=Route.where(:vehicle_id => school_vehicles_ids).map(&:id)
+    @routes=Route.where(:vehicle_id => school_vehicles_ids)
   end
 
   # GET /stops/1/edit
   def edit
-    @routes=Route.where(:vehicle_id => school_vehicles_ids).map(&:id)
+    @routes=Route.where(:vehicle_id => school_vehicles_ids)
   end
 
   # POST /stops
