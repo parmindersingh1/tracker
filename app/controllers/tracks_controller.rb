@@ -27,7 +27,7 @@ class TracksController < ApplicationController
     location_ids = Track.select("MAX(id) AS id").group(:sessionid).collect(&:id)  
     end
     unless location_ids.empty?
-    @locations = Track.order("created_at DESC").where("id in (#{location_ids.join(',')}) AND sessionid != '0' AND CHAR_LENGTH(sessionid) != 0 AND gpstime != '0000-00-00 00:00:00' AND DATE(gpstime) = '#{params[:selecteddate]}'").as_json
+    @locations = Track.order("created_at DESC").where("id in (#{location_ids.join(',')}) AND sessionid != '0' AND CHAR_LENGTH(sessionid) != 0 AND DATE(gpstime) = '#{params[:selecteddate]}'").as_json
     @locations.each do |loc|
       vehicle = Vehicle.find_by_id(loc["vehicle_id"])
       loc["userName"] = vehicle.registration_no
@@ -109,12 +109,12 @@ class TracksController < ApplicationController
       first_track = Track.where("sessionid = '#{session.sessionid}'   AND DATE(gpstime) = '#{params[:selecteddate]}'").first
       route["userName"]=first_track.vehicle.registration_no
       route["route_name"]=first_track.route.name
-      if startTime.nil?
-        startTime = CGI::unescape('0000-00-00')
-      end
-      if endTime.nil?
-        endTime = CGI::unescape('0000-00-00')
-      end
+      # if startTime.nil?
+        # startTime = CGI::unescape('0000-00-00')
+      # end
+      # if endTime.nil?
+        # endTime = CGI::unescape('0000-00-00')
+      # end
 
       route["times"]="#{startTime.strftime('%b %e %Y %I:%M%p')} - #{endTime.strftime('%b %e %Y %I:%M%p')}"
 
