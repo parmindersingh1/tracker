@@ -74,7 +74,7 @@ GEM
     multi_json (1.10.1)
     mysql2 (0.3.17)
     orm_adapter (0.5.0)
-    pg (0.17.1)
+    pg (0.18.1)
     polylines (0.2.0)
     rack (1.5.2)
     rack-cors (0.3.1)
@@ -158,7 +158,7 @@ DEPENDENCIES
   leaflet-rails
   momentjs-rails (>= 2.8.1)
   mysql2
-  pg
+  pg (~> 0.18.1)
   polylines
   rack-cors
   rails (= 4.1.8)

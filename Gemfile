@@ -50,7 +50,7 @@ gem 'polylines'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 group :production do
-  gem 'pg'
+  gem 'pg', '~> 0.18.1'
   gem 'rails_12factor'
 end
 
