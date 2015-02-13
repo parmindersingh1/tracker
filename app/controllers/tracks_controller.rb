@@ -31,7 +31,7 @@ class TracksController < ApplicationController
     @locations.each do |loc|
       vehicle = Vehicle.find_by_id(loc["vehicle_id"])
       loc["userName"] = vehicle.registration_no
-      loc["route_name"]  = loc.route.name
+      loc["route_name"]  = Route.find_by_id(loc["route_id"]).name
       @tracks << loc
     end
     end
@@ -54,7 +54,7 @@ class TracksController < ApplicationController
     @locations.each do |loc|
       vehicle = Vehicle.find_by_id(loc["vehicle_id"])
       loc["userName"] = vehicle.registration_no
-      loc["route_name"]  = loc.route.name
+      loc["route_name"]  = Route.find_by_id(loc["route_id"]).name
       @tracks << loc
     end
     render :json =>  {:locations=> @tracks}
@@ -175,7 +175,8 @@ class TracksController < ApplicationController
         within_distance=false
         
          @route.stops.each do |stop|
-            distance=stop.check_distance [@location.latitude, @location.longitude]
+           logger.info("&&&&&&&&&&&&#{stop.class.instance_methods.include?("distance")}$$$$$$$$$$$$$")
+            distance = stop.check_distance([@location.latitude, @location.longitude])
             if distance <= ENV["DISTANCE"].to_f
               within_distance = true              
               break
@@ -184,13 +185,13 @@ class TracksController < ApplicationController
    
         
         if within_distance == false
-          logger_info("**********Send SMS*************");
+          logger.info("**********Send SMS*************");
            @response = SmsManager.new("#{@vehicle.registration_no} is out of track",@device.school.phone_no)
              if @response == "something went worng"
-                logger_info("Error Sending Message to #{@track.id}")                  
+                logger.info("Error Sending Message to #{@track.id}")                  
              end       
         end
-        check_distance
+        
         render :json => {:message=> "Location Saved Successfully", :success => true}
       else
         logger.info("Error while Saving location #{@location.errors}")
@@ -234,6 +235,6 @@ class TracksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def track_params
-    params.require(:track).permit(:latitude, :longitude, :sessionid, :speed, :direction, :distance, :gpstime, :locationmethod, :accuracy, :extrainfo, :eventtype, :vehicle_id, :route_id, :device)
+    params.require(:track).permit(:latitude, :longitude, :sessionid, :speed, :direction, :distance, :gpstime, :locationmethod, :accuracy, :extrainfo, :eventtype, :vehicle_id, :route_id, :device, :route_name)
   end
 end
