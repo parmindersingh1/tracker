@@ -37,6 +37,7 @@ gem 'cancan'
 gem 'rack-cors', :require => 'rack/cors'
 gem 'time_difference'
 gem 'polylines'
+gem 'jquery-datatables-rails', '~> 3.1.1'
 # gem 'rolify'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

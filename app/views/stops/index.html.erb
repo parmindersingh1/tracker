@@ -1,6 +1,6 @@
 <h1>Listing stops</h1>
 
-<table class="table">
+<table class="table table-striped table-bordered" id= "datatable">
   <thead>
     <tr>
       <th>Name</th>
@@ -9,9 +9,12 @@
       <th>Timeperiod</th>
       <th>Sequence</th>
       <th>Route</th>
+      <th>Is stop</th>
+      <th>
       <% if current_user.role == "superuser" || current_user.role == "admin"%>
-      <th colspan="3"></th>
+      
       <% end %>
+      </th>
     </tr>
   </thead>
 
@@ -24,12 +27,15 @@
         <td><%= stop.timeperiod %></td>
         <td><%= stop.sequence %></td>
         <td><%= stop.route.name %></td>
+        <td><%= stop.is_stop %></td>
+         <td>
          <% if current_user.role == "superuser" || current_user.role == "admin"%>
-        <td><%= link_to 'Edit', edit_stop_path(stop) %></td>
+        <%= link_to 'Edit', edit_stop_path(stop) %>
         <% end %>
-         <% if current_user.role == "superuser"%>
-        <td><%= link_to 'Destroy', stop, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if current_user.role == "superuser"%>
+        <%= link_to 'Destroy', stop, method: :delete, data: { confirm: 'Are you sure?' } %>
         <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -39,3 +45,13 @@
  <% if current_user.role == "superuser" || current_user.role == "admin"%>
 <%= link_to 'New Stop', new_stop_path %>
 <% end %>
+
+<script>
+	$(document).ready(function(){
+		$('#datatable').dataTable({			
+			
+		});
+		
+	});
+	
+</script>

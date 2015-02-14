@@ -106,6 +106,6 @@ class StopsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def stop_params
-    params.require(:stop).permit(:name, :latitude, :longitude, :timeperiod, :sequence, :route_id, :gpstime)
+    params.require(:stop).permit(:name, :latitude, :longitude, :timeperiod, :sequence, :route_id,:is_stop, :gpstime)
   end
 end
